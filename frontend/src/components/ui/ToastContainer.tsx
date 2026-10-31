@@ -2,7 +2,7 @@
 
 import React from 'react';
 import { motion, AnimatePresence } from 'motion/react';
-import type { Toast as ToastType } from '../types';
+import type { Toast as ToastType } from '../../types';
 
 interface ToastContainerProps {
   toasts: ToastType[];

@@ -2,7 +2,7 @@
 
 import React from 'react';
 import { motion, AnimatePresence } from 'motion/react';
-import type { Conversation } from '../types';
+import type { Conversation } from '../../types';
 import { IconPin, IconEdit, IconTrash, IconMore, IconClose } from '../ui/Icons';
 
 interface ConvListProps {
