@@ -8,3 +8,5 @@ coverage/
 backend/instance/zyro.db
 __pycache__/
 !.env.example
+database/*.db
+frontend/dist/
