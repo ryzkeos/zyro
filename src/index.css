@@ -1,0 +1,452 @@
+@import url('https://fonts.googleapis.com/css2?family=Cinzel:wght@400;500;600;700;800;900&family=Cormorant+Garamond:ital,wght@1,300;1,400;1,500&family=IBM+Plex+Mono:wght@300;400;500&display=swap');
+@import "tailwindcss";
+
+@theme {
+  --font-display: "Cinzel", serif;
+  --font-serif: "Cormorant Garamond", serif;
+  --font-mono: "IBM Plex Mono", monospace;
+
+  --color-bg: var(--bg);
+  --color-surface: var(--surface);
+  --color-surface2: var(--surface2);
+  --color-border: var(--border);
+  --color-border-light: var(--border-light);
+  --color-text: var(--text);
+  --color-text-mid: var(--text-mid);
+  --color-text-dim: var(--text-dim);
+  --color-silver: var(--silver);
+  --color-accent: var(--accent);
+  --color-accent-soft: var(--accent-soft);
+  --color-silver-soft: rgba(192, 192, 192, 0.10);
+}
+
+@layer base {
+
+  /* ── BASE: Dark (pure black) ────────────────────────────────────────────── */
+  :root {
+    --bg:           #000000;
+    --surface:      #0a0a0a;
+    --surface2:     #050505;
+    --border:       #1c1c1c;
+    --border-light: #2a2a2a;
+    --text:         #f5f5f5;
+    --text-mid:     #b0b0b0;
+    --text-dim:     #555555;
+    --silver:       #d8d8d8;
+    --accent:       #d8d8d8;
+    --accent-soft:  rgba(216,216,216,0.10);
+  }
+
+  /* ── BASE: Dim (slightly dark, improved contrast) ───────────────────────── */
+  [data-theme='dim'] {
+    --bg:           #111111;
+    --surface:      #1a1a1a;
+    --surface2:     #0d0d0d;
+    --border:       #2a2a2a;
+    --border-light: #383838;
+    --text:         #ebebeb;
+    --text-mid:     #a0a0a0;
+    --text-dim:     #585858;
+    --silver:       #c8c8c8;
+    --accent:       #c8c8c8;
+    --accent-soft:  rgba(200,200,200,0.10);
+  }
+
+  /* ── BASE: Light ────────────────────────────────────────────────────────── */
+  [data-theme='light'] {
+    --bg:           #f5f5fc;
+    --surface:      #eaeaf5;
+    --surface2:     #dcdcee;
+    --border:       #c0c0d8;
+    --border-light: #a8a8cc;
+    --text:         #080818;
+    --text-mid:     #282848;
+    --text-dim:     #585878;
+    --silver:       #3838a8;
+    --accent:       #3838a8;
+    --accent-soft:  rgba(56,56,168,0.10);
+  }
+
+  /* ══════════════════════════════════════════════════════════════════════════
+     COLOR THEMES — each theme paints: --silver, --accent, --accent-soft,
+     and optionally tints --bg / --surface / --border for full immersion.
+  ══════════════════════════════════════════════════════════════════════════ */
+
+  /* ── Rose ─────────────────────────────────────────────────────────────── */
+  [data-color-theme='rose'] {
+    --silver:       #f87096;
+    --accent:       #f87096;
+    --accent-soft:  rgba(248, 112, 150, 0.13);
+    --border:       #2e1420;
+    --border-light: #482030;
+    --surface:      #160a12;
+    --surface2:     #0f060e;
+    --bg:           #110810;
+    --text:         #f8e8ee;
+    --text-mid:     #d098a8;
+    --text-dim:     #784858;
+  }
+  [data-theme='light'][data-color-theme='rose'] {
+    --silver:       #b0082e;
+    --accent:       #b0082e;
+    --accent-soft:  rgba(176,8,46,0.10);
+    --border:       #f0b8c4;
+    --border-light: #e08098;
+    --surface:      #ffeff4;
+    --surface2:     #ffdce6;
+    --bg:           #fff8fa;
+    --text:         #1e060e;
+    --text-mid:     #6a1c30;
+    --text-dim:     #a05868;
+  }
+  [data-theme='dim'][data-color-theme='rose'] {
+    --silver:       #ff80a8;
+    --accent:       #ff80a8;
+    --accent-soft:  rgba(255,128,168,0.13);
+    --border:       #32182a;
+    --border-light: #4e2840;
+    --surface:      #1e1018;
+    --surface2:     #160c12;
+    --bg:           #1a0e16;
+    --text:         #f0dce4;
+    --text-mid:     #c088a0;
+    --text-dim:     #724050;
+  }
+
+  /* ── Matcha ───────────────────────────────────────────────────────────── */
+  [data-color-theme='matcha'] {
+    --silver:       #78d060;
+    --accent:       #78d060;
+    --accent-soft:  rgba(120, 208, 96, 0.13);
+    --border:       #142214;
+    --border-light: #203420;
+    --surface:      #0a120a;
+    --surface2:     #070e06;
+    --bg:           #090f08;
+    --text:         #e8f8e8;
+    --text-mid:     #98cc98;
+    --text-dim:     #507050;
+  }
+  [data-theme='light'][data-color-theme='matcha'] {
+    --silver:       #246818;
+    --accent:       #246818;
+    --accent-soft:  rgba(36,104,24,0.10);
+    --border:       #b8d8a8;
+    --border-light: #90c078;
+    --surface:      #edf8e8;
+    --surface2:     #daf0d0;
+    --bg:           #f3fbf0;
+    --text:         #081408;
+    --text-mid:     #205020;
+    --text-dim:     #587858;
+  }
+  [data-theme='dim'][data-color-theme='matcha'] {
+    --silver:       #90e070;
+    --accent:       #90e070;
+    --accent-soft:  rgba(144,224,112,0.13);
+    --border:       #183018;
+    --border-light: #264826;
+    --surface:      #0e180e;
+    --surface2:     #0a120a;
+    --bg:           #0c160b;
+    --text:         #ddf0dd;
+    --text-mid:     #88c888;
+    --text-dim:     #487848;
+  }
+
+  /* ── Purple ───────────────────────────────────────────────────────────── */
+  [data-color-theme='purple'] {
+    --silver:       #c078ff;
+    --accent:       #c078ff;
+    --accent-soft:  rgba(192, 120, 255, 0.13);
+    --border:       #201038;
+    --border-light: #321852;
+    --surface:      #100820;
+    --surface2:     #0c0618;
+    --bg:           #0e0718;
+    --text:         #ede8f8;
+    --text-mid:     #b090d8;
+    --text-dim:     #685088;
+  }
+  [data-theme='light'][data-color-theme='purple'] {
+    --silver:       #5010c8;
+    --accent:       #5010c8;
+    --accent-soft:  rgba(80,16,200,0.10);
+    --border:       #d8c4f8;
+    --border-light: #bc98f0;
+    --surface:      #f4eeff;
+    --surface2:     #e8d8ff;
+    --bg:           #faf6ff;
+    --text:         #0c0620;
+    --text-mid:     #380898;
+    --text-dim:     #7858b8;
+  }
+  [data-theme='dim'][data-color-theme='purple'] {
+    --silver:       #d098ff;
+    --accent:       #d098ff;
+    --accent-soft:  rgba(208,152,255,0.13);
+    --border:       #281440;
+    --border-light: #3e2060;
+    --surface:      #180c28;
+    --surface2:     #10081e;
+    --bg:           #140a22;
+    --text:         #e8dcf8;
+    --text-mid:     #a878d0;
+    --text-dim:     #604880;
+  }
+
+  /* ── Sky Blue ─────────────────────────────────────────────────────────── */
+  [data-color-theme='skyblue'] {
+    --silver:       #48ccff;
+    --accent:       #48ccff;
+    --accent-soft:  rgba(72, 204, 255, 0.13);
+    --border:       #0c2038;
+    --border-light: #143050;
+    --surface:      #060e1c;
+    --surface2:     #040a14;
+    --bg:           #050c18;
+    --text:         #e4f4ff;
+    --text-mid:     #88c8f0;
+    --text-dim:     #406888;
+  }
+  [data-theme='light'][data-color-theme='skyblue'] {
+    --silver:       #004090;
+    --accent:       #004090;
+    --accent-soft:  rgba(0,64,144,0.10);
+    --border:       #a0d0f0;
+    --border-light: #60b0e8;
+    --surface:      #e4f4ff;
+    --surface2:     #ccebff;
+    --bg:           #f0f9ff;
+    --text:         #020c1e;
+    --text-mid:     #0c3060;
+    --text-dim:     #4070a0;
+  }
+  [data-theme='dim'][data-color-theme='skyblue'] {
+    --silver:       #68d8ff;
+    --accent:       #68d8ff;
+    --accent-soft:  rgba(104,216,255,0.13);
+    --border:       #0e2840;
+    --border-light: #163c58;
+    --surface:      #08141e;
+    --surface2:     #060e18;
+    --bg:           #07101a;
+    --text:         #dcf0ff;
+    --text-mid:     #80c0e8;
+    --text-dim:     #386880;
+  }
+
+  /* ── Monochrome — pure black, silver, gray, white ────────────────────── */
+  [data-color-theme='monochrome'] {
+    --bg:           #000000;
+    --surface:      #0c0c0c;
+    --surface2:     #060606;
+    --border:       #222222;
+    --border-light: #333333;
+    --text:         #ffffff;
+    --text-mid:     #cccccc;
+    --text-dim:     #666666;
+    --silver:       #e0e0e0;
+    --accent:       #e0e0e0;
+    --accent-soft:  rgba(224,224,224,0.12);
+  }
+  [data-theme='light'][data-color-theme='monochrome'] {
+    --bg:           #ffffff;
+    --surface:      #f0f0f0;
+    --surface2:     #e4e4e4;
+    --border:       #cccccc;
+    --border-light: #b0b0b0;
+    --text:         #000000;
+    --text-mid:     #333333;
+    --text-dim:     #888888;
+    --silver:       #111111;
+    --accent:       #111111;
+    --accent-soft:  rgba(0,0,0,0.08);
+  }
+  [data-theme='dim'][data-color-theme='monochrome'] {
+    --bg:           #141414;
+    --surface:      #1e1e1e;
+    --surface2:     #0f0f0f;
+    --border:       #303030;
+    --border-light: #404040;
+    --text:         #f0f0f0;
+    --text-mid:     #aaaaaa;
+    --text-dim:     #606060;
+    --silver:       #d0d0d0;
+    --accent:       #d0d0d0;
+    --accent-soft:  rgba(208,208,208,0.10);
+  }
+
+  /* ── Sunset Yellow ────────────────────────────────────────────────────── */
+  [data-color-theme='sunset-yellow'] {
+    --silver:       #ffc840;
+    --accent:       #ffc840;
+    --accent-soft:  rgba(255, 200, 64, 0.13);
+    --border:       #281c08;
+    --border-light: #3e2c10;
+    --surface:      #140e04;
+    --surface2:     #0e0a02;
+    --bg:           #100c03;
+    --text:         #fff4d8;
+    --text-mid:     #d8b070;
+    --text-dim:     #887038;
+  }
+  [data-theme='light'][data-color-theme='sunset-yellow'] {
+    --silver:       #803800;
+    --accent:       #803800;
+    --accent-soft:  rgba(128,56,0,0.10);
+    --border:       #f8d080;
+    --border-light: #f0b040;
+    --surface:      #fff8e0;
+    --surface2:     #fff0c0;
+    --bg:           #fffdf0;
+    --text:         #180e00;
+    --text-mid:     #583800;
+    --text-dim:     #987028;
+  }
+  [data-theme='dim'][data-color-theme='sunset-yellow'] {
+    --silver:       #ffd460;
+    --accent:       #ffd460;
+    --accent-soft:  rgba(255,212,96,0.13);
+    --border:       #302008;
+    --border-light: #4a3010;
+    --surface:      #181004;
+    --surface2:     #100c02;
+    --bg:           #140e03;
+    --text:         #fff0d0;
+    --text-mid:     #c8a050;
+    --text-dim:     #786028;
+  }
+
+  /* ── Body ─────────────────────────────────────────────────────────────── */
+  body {
+    @apply bg-bg text-text font-mono text-[13px] leading-[1.75];
+    -webkit-font-smoothing: antialiased;
+    -moz-osx-font-smoothing: grayscale;
+    transition:
+      background-color 0.5s cubic-bezier(0.4, 0, 0.2, 1),
+      color 0.5s cubic-bezier(0.4, 0, 0.2, 1),
+      border-color 0.5s cubic-bezier(0.4, 0, 0.2, 1);
+  }
+
+  ::-webkit-scrollbar { width: 3px; }
+  ::-webkit-scrollbar-track { @apply bg-bg; }
+  ::-webkit-scrollbar-thumb { background: var(--border-light); border-radius: 2px; }
+  ::-webkit-scrollbar-thumb:hover { background: var(--text-dim); }
+}
+
+@layer utilities {
+
+  /* Accent glow ring — used on active elements */
+  .accent-ring {
+    box-shadow: 0 0 0 1px var(--accent), 0 0 12px var(--accent-soft);
+  }
+
+  .silver-underline { @apply relative; }
+  .silver-underline::after {
+    content: "";
+    @apply absolute left-0 -bottom-1 h-[1px] w-6;
+    background: var(--accent);
+    transition: width 0.3s ease;
+  }
+  .silver-underline:hover::after { width: 100%; }
+
+  /* ── Markdown ─────────────────────────────────────────────────────────── */
+  .markdown-body { @apply space-y-4; }
+  .markdown-body h1 {
+    @apply text-xl font-bold pb-2 mt-6 mb-4 border-b;
+    color: var(--accent);
+    border-color: var(--border);
+  }
+  .markdown-body h2 {
+    @apply text-lg font-bold pb-1 mt-5 mb-3 border-b;
+    color: var(--accent);
+    border-color: var(--border);
+  }
+  .markdown-body h3 {
+    @apply text-base font-bold mt-4 mb-2;
+    color: var(--accent);
+  }
+  .markdown-body p  { @apply mb-4 last:mb-0; }
+  .markdown-body ul { @apply list-disc list-inside space-y-1 mb-4; }
+  .markdown-body ol { @apply list-decimal list-inside space-y-1 mb-4; }
+  .markdown-body li { color: var(--text-mid); }
+  .markdown-body strong { font-weight: 700; color: var(--accent); }
+  .markdown-body em    { @apply italic; color: var(--text-mid); }
+  .markdown-body code  {
+    @apply px-1.5 py-0.5 text-[12px] font-mono;
+    background: var(--accent-soft);
+    border: 1px solid var(--border-light);
+    color: var(--accent);
+  }
+  .markdown-body pre {
+    @apply p-4 overflow-x-auto mb-4 font-mono text-[12px] border;
+    background: var(--surface2);
+    border-color: var(--border);
+  }
+  .markdown-body pre code {
+    background: transparent;
+    border: none;
+    padding: 0;
+    color: var(--text);
+  }
+  .markdown-body blockquote {
+    @apply pl-4 italic mb-4 border-l-2;
+    border-color: var(--accent);
+    color: var(--text-mid);
+  }
+  .markdown-body table { @apply w-full border-collapse mb-4 border; border-color: var(--border); }
+  .markdown-body th {
+    @apply p-2 text-left font-bold border;
+    background: var(--surface);
+    color: var(--accent);
+    border-color: var(--border);
+  }
+  .markdown-body td { @apply p-2 border; color: var(--text-mid); border-color: var(--border); }
+  .markdown-body a  {
+    text-decoration: underline;
+    color: var(--accent);
+    transition: opacity 0.2s;
+  }
+  .markdown-body a:hover { opacity: 0.75; }
+
+  @keyframes cursor-blink {
+    0%, 100% { opacity: 1; }
+    50%       { opacity: 0; }
+  }
+  .animate-cursor-blink { animation: cursor-blink 1s step-end infinite; }
+
+  /* ── Shimmer skeleton loading ─────────────────────────────────────────── */
+  @keyframes shimmer-slide {
+    0%   { transform: translateX(-100%); }
+    100% { transform: translateX(200%); }
+  }
+  .shimmer-anim {
+    position: relative;
+    overflow: hidden;
+    background: var(--surface2);
+    border-radius: 3px;
+  }
+  .shimmer-anim::after {
+    content: '';
+    position: absolute;
+    inset: 0;
+    background: linear-gradient(
+      90deg,
+      transparent 0%,
+      var(--border-light) 50%,
+      transparent 100%
+    );
+    animation: shimmer-slide 1.6s ease-in-out infinite;
+  }
+
+  /* Smooth theme transition on all major elements */
+  * {
+    transition-property: background-color, border-color, color, box-shadow;
+    transition-duration: 0.4s;
+    transition-timing-function: cubic-bezier(0.4, 0, 0.2, 1);
+  }
+  /* Don't animate transforms/opacity with that rule */
+  button, a { transition-property: background-color, border-color, color, opacity, transform; }
+}
+
