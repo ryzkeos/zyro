@@ -1,0 +1,452 @@
+@import url('https://fonts.googleapis.com/css2?family=Cinzel:wght@400;500;600;700;800;900&family=Cormorant+Garamond:ital,wght@1,300;1,400;1,500&family=IBM+Plex+Mono:wght@300;400;500&display=swap');
+@import "tailwindcss";
+
+@theme {
+  --font-display: "Cinzel", serif;
+  --font-serif: "Cormorant Garamond", serif;
+  --font-mono: "IBM Plex Mono", monospace;
+
+  --color-bg: var(--bg);
+  --color-surface: var(--surface);
+  --color-surface2: var(--surface2);
+  --color-border: var(--border);
+  --color-border-light: var(--border-light);
+  --color-text: var(--text);
+  --color-text-mid: var(--text-mid);
+  --color-text-dim: var(--text-dim);
+  --color-silver: var(--silver);
+  --color-accent: var(--accent);
+  --color-accent-soft: var(--accent-soft);
+  --color-silver-soft: rgba(192, 192, 192, 0.10);
+}
+
+@layer base {
+
+  /* ── BASE: Dark (pure black) ────────────────────────────────────────────── */
+  :root {
+    --bg:           #000000;
+    --surface:      #0d0d0d;
+    --surface2:     #060606;
+    --border:       #1e1e1e;
+    --border-light: #2e2e2e;
+    --text:         #f0f0f0;
+    --text-mid:     #a8a8a8;
+    --text-dim:     #606060;
+    --silver:       #d8d8d8;
+    --accent:       #d8d8d8;
+    --accent-soft:  rgba(216,216,216,0.10);
+  }
+
+  /* ── BASE: Dim ──────────────────────────────────────────────────────────── */
+  [data-theme='dim'] {
+    --bg:           #161616;
+    --surface:      #202020;
+    --surface2:     #111111;
+    --border:       #2e2e2e;
+    --border-light: #3e3e3e;
+    --text:         #ececec;
+    --text-mid:     #9e9e9e;
+    --text-dim:     #606060;
+    --silver:       #cccccc;
+    --accent:       #cccccc;
+    --accent-soft:  rgba(204,204,204,0.10);
+  }
+
+  /* ── BASE: Light ────────────────────────────────────────────────────────── */
+  [data-theme='light'] {
+    --bg:           #fafafa;
+    --surface:      #f0f0f0;
+    --surface2:     #e6e6e6;
+    --border:       #d0d0d0;
+    --border-light: #b8b8b8;
+    --text:         #0e0e0e;
+    --text-mid:     #444444;
+    --text-dim:     #888888;
+    --silver:       #141414;
+    --accent:       #141414;
+    --accent-soft:  rgba(0,0,0,0.07);
+  }
+
+  /* ══════════════════════════════════════════════════════════════════════════
+     COLOR THEMES
+  ══════════════════════════════════════════════════════════════════════════ */
+
+  /* ── Rose ─────────────────────────────────────────────────────────────── */
+  [data-color-theme='rose'] {
+    --silver:       #f06088;
+    --accent:       #f06088;
+    --accent-soft:  rgba(240,96,136,0.12);
+    --border:       #2c1220;
+    --border-light: #441828;
+    --surface:      #180d14;
+    --surface2:     #0e070c;
+    --bg:           #120810;
+    --text:         #f5e8ee;
+    --text-mid:     #b87890;
+    --text-dim:     #7a5060;
+  }
+  [data-theme='light'][data-color-theme='rose'] {
+    --silver:       #a00828;
+    --accent:       #a00828;
+    --accent-soft:  rgba(160,8,40,0.09);
+    --border:       #edbbca;
+    --border-light: #d88090;
+    --surface:      #fff2f6;
+    --surface2:     #ffe0e8;
+    --bg:           #fff8fa;
+    --text:         #1a050e;
+    --text-mid:     #6e3048;
+    --text-dim:     #a87080;
+  }
+  [data-theme='dim'][data-color-theme='rose'] {
+    --silver:       #f07898;
+    --accent:       #f07898;
+    --accent-soft:  rgba(240,120,152,0.12);
+    --border:       #301520;
+    --border-light: #4a2030;
+    --surface:      #221018;
+    --surface2:     #180c12;
+    --bg:           #1c0e14;
+    --text:         #f0dce4;
+    --text-mid:     #a87080;
+    --text-dim:     #785060;
+  }
+
+  /* ── Matcha ───────────────────────────────────────────────────────────── */
+  [data-color-theme='matcha'] {
+    --silver:       #6ec855;
+    --accent:       #6ec855;
+    --accent-soft:  rgba(110,200,85,0.12);
+    --border:       #122014;
+    --border-light: #1c3020;
+    --surface:      #0c140c;
+    --surface2:     #070e07;
+    --bg:           #090f08;
+    --text:         #e5f5e5;
+    --text-mid:     #78a878;
+    --text-dim:     #527052;
+  }
+  [data-theme='light'][data-color-theme='matcha'] {
+    --silver:       #206018;
+    --accent:       #206018;
+    --accent-soft:  rgba(32,96,24,0.09);
+    --border:       #b0d8a0;
+    --border-light: #88b870;
+    --surface:      #eef8e8;
+    --surface2:     #dcefd4;
+    --bg:           #f4fbf0;
+    --text:         #081208;
+    --text-mid:     #386038;
+    --text-dim:     #688068;
+  }
+  [data-theme='dim'][data-color-theme='matcha'] {
+    --silver:       #80d860;
+    --accent:       #80d860;
+    --accent-soft:  rgba(128,216,96,0.12);
+    --border:       #162c16;
+    --border-light: #224022;
+    --surface:      #101a10;
+    --surface2:     #0b130b;
+    --bg:           #0d170c;
+    --text:         #daf0da;
+    --text-mid:     #70a870;
+    --text-dim:     #507050;
+  }
+
+  /* ── Purple ───────────────────────────────────────────────────────────── */
+  [data-color-theme='purple'] {
+    --silver:       #b868f8;
+    --accent:       #b868f8;
+    --accent-soft:  rgba(184,104,248,0.12);
+    --border:       #1e0e38;
+    --border-light: #301450;
+    --surface:      #120a22;
+    --surface2:     #0c0618;
+    --bg:           #0f071a;
+    --text:         #ece5f8;
+    --text-mid:     #9870c0;
+    --text-dim:     #6a5088;
+  }
+  [data-theme='light'][data-color-theme='purple'] {
+    --silver:       #4808c0;
+    --accent:       #4808c0;
+    --accent-soft:  rgba(72,8,192,0.09);
+    --border:       #d5bef8;
+    --border-light: #b890f0;
+    --surface:      #f6f0ff;
+    --surface2:     #ecdcff;
+    --bg:           #fbf8ff;
+    --text:         #0a0520;
+    --text-mid:     #4020a0;
+    --text-dim:     #8060c0;
+  }
+  [data-theme='dim'][data-color-theme='purple'] {
+    --silver:       #c888ff;
+    --accent:       #c888ff;
+    --accent-soft:  rgba(200,136,255,0.12);
+    --border:       #241038;
+    --border-light: #381858;
+    --surface:      #1a0e2c;
+    --surface2:     #120820;
+    --bg:           #160a24;
+    --text:         #e8d8f8;
+    --text-mid:     #9068b8;
+    --text-dim:     #685080;
+  }
+
+  /* ── Sky Blue ─────────────────────────────────────────────────────────── */
+  [data-color-theme='skyblue'] {
+    --silver:       #38c0f8;
+    --accent:       #38c0f8;
+    --accent-soft:  rgba(56,192,248,0.12);
+    --border:       #0a1e38;
+    --border-light: #102c50;
+    --surface:      #07101e;
+    --surface2:     #040a14;
+    --bg:           #050d18;
+    --text:         #e0f2ff;
+    --text-mid:     #6098b8;
+    --text-dim:     #407090;
+  }
+  [data-theme='light'][data-color-theme='skyblue'] {
+    --silver:       #003888;
+    --accent:       #003888;
+    --accent-soft:  rgba(0,56,136,0.09);
+    --border:       #9cceed;
+    --border-light: #58a8e0;
+    --surface:      #e8f4ff;
+    --surface2:     #cce8ff;
+    --bg:           #f2f9ff;
+    --text:         #020c1c;
+    --text-mid:     #204870;
+    --text-dim:     #507090;
+  }
+  [data-theme='dim'][data-color-theme='skyblue'] {
+    --silver:       #58d0ff;
+    --accent:       #58d0ff;
+    --accent-soft:  rgba(88,208,255,0.12);
+    --border:       #0c2438;
+    --border-light: #143450;
+    --surface:      #0a1820;
+    --surface2:     #060f18;
+    --bg:           #08121c;
+    --text:         #daeeff;
+    --text-mid:     #5898b8;
+    --text-dim:     #406880;
+  }
+
+  /* ── Monochrome ───────────────────────────────────────────────────────── */
+  [data-color-theme='monochrome'] {
+    --bg:           #000000;
+    --surface:      #0e0e0e;
+    --surface2:     #070707;
+    --border:       #242424;
+    --border-light: #343434;
+    --text:         #f8f8f8;
+    --text-mid:     #c0c0c0;
+    --text-dim:     #686868;
+    --silver:       #e8e8e8;
+    --accent:       #e8e8e8;
+    --accent-soft:  rgba(232,232,232,0.10);
+  }
+  [data-theme='light'][data-color-theme='monochrome'] {
+    --bg:           #ffffff;
+    --surface:      #f2f2f2;
+    --surface2:     #e6e6e6;
+    --border:       #d0d0d0;
+    --border-light: #b4b4b4;
+    --text:         #080808;
+    --text-mid:     #404040;
+    --text-dim:     #909090;
+    --silver:       #101010;
+    --accent:       #101010;
+    --accent-soft:  rgba(0,0,0,0.07);
+  }
+  [data-theme='dim'][data-color-theme='monochrome'] {
+    --bg:           #161616;
+    --surface:      #222222;
+    --surface2:     #101010;
+    --border:       #323232;
+    --border-light: #424242;
+    --text:         #f0f0f0;
+    --text-mid:     #b0b0b0;
+    --text-dim:     #686868;
+    --silver:       #d8d8d8;
+    --accent:       #d8d8d8;
+    --accent-soft:  rgba(216,216,216,0.10);
+  }
+
+  /* ── Sunset Yellow ────────────────────────────────────────────────────── */
+  [data-color-theme='sunset-yellow'] {
+    --silver:       #f0b830;
+    --accent:       #f0b830;
+    --accent-soft:  rgba(240,184,48,0.12);
+    --border:       #241a06;
+    --border-light: #38280a;
+    --surface:      #160e04;
+    --surface2:     #0e0902;
+    --bg:           #110c03;
+    --text:         #fff2d0;
+    --text-mid:     #b89050;
+    --text-dim:     #807040;
+  }
+  [data-theme='light'][data-color-theme='sunset-yellow'] {
+    --silver:       #783200;
+    --accent:       #783200;
+    --accent-soft:  rgba(120,50,0,0.09);
+    --border:       #f5cb78;
+    --border-light: #e8a838;
+    --surface:      #fffae0;
+    --surface2:     #fff2c0;
+    --bg:           #fffef4;
+    --text:         #160c00;
+    --text-mid:     #584030;
+    --text-dim:     #907848;
+  }
+  [data-theme='dim'][data-color-theme='sunset-yellow'] {
+    --silver:       #f8c840;
+    --accent:       #f8c840;
+    --accent-soft:  rgba(248,200,64,0.12);
+    --border:       #2c1e06;
+    --border-light: #44300c;
+    --surface:      #1a1204;
+    --surface2:     #110c02;
+    --bg:           #160f03;
+    --text:         #fff0cc;
+    --text-mid:     #a87840;
+    --text-dim:     #806030;
+  }
+
+  /* ── Body ─────────────────────────────────────────────────────────────── */
+  body {
+    @apply bg-bg text-text font-mono text-[13px] leading-[1.75];
+    -webkit-font-smoothing: antialiased;
+    -moz-osx-font-smoothing: grayscale;
+    text-rendering: optimizeLegibility;
+    overflow: hidden;
+    transition:
+      background-color 0.5s cubic-bezier(0.4, 0, 0.2, 1),
+      color 0.5s cubic-bezier(0.4, 0, 0.2, 1),
+      border-color 0.5s cubic-bezier(0.4, 0, 0.2, 1);
+  }
+
+  ::-webkit-scrollbar { width: 3px; }
+  ::-webkit-scrollbar-track { background: var(--bg); }
+  ::-webkit-scrollbar-thumb { background: var(--border-light); border-radius: 2px; }
+  ::-webkit-scrollbar-thumb:hover { background: var(--silver); opacity: 0.5; }
+}
+
+@layer utilities {
+
+  /* Accent glow ring — used on active elements */
+  .accent-ring {
+    box-shadow: 0 0 0 1px var(--accent), 0 0 12px var(--accent-soft);
+  }
+
+  .silver-underline { @apply relative; }
+  .silver-underline::after {
+    content: "";
+    @apply absolute left-0 -bottom-1 h-[1px] w-6;
+    background: var(--accent);
+    transition: width 0.3s ease;
+  }
+  .silver-underline:hover::after { width: 100%; }
+
+  /* ── Message row optimization ─────────────────────────────────────────── */
+  .message-row {
+    content-visibility: auto;
+    contain-intrinsic-size: 0 200px;
+  }
+
+  /* ── Markdown ─────────────────────────────────────────────────────────── */
+  .markdown-body { @apply space-y-4; word-break: break-word; overflow-wrap: break-word; }
+  .markdown-body h1 {
+    @apply text-xl font-bold pb-2 mt-6 mb-4 border-b;
+    color: var(--accent);
+    border-color: var(--border);
+  }
+  .markdown-body h2 {
+    @apply text-lg font-bold pb-1 mt-5 mb-3 border-b;
+    color: var(--accent);
+    border-color: var(--border);
+  }
+  .markdown-body h3 {
+    @apply text-base font-bold mt-4 mb-2;
+    color: var(--accent);
+  }
+  .markdown-body p  { @apply mb-4 last:mb-0; }
+  .markdown-body ul { @apply list-disc list-inside space-y-1 mb-4; }
+  .markdown-body ol { @apply list-decimal list-inside space-y-1 mb-4; }
+  .markdown-body li { color: var(--text-mid); }
+  .markdown-body strong { font-weight: 700; color: var(--accent); }
+  .markdown-body em    { @apply italic; color: var(--text-mid); }
+  .markdown-body code  {
+    @apply px-2 py-0.5 text-[12px] font-mono;
+    background: var(--accent-soft);
+    color: var(--accent);
+    box-decoration-break: clone;
+    -webkit-box-decoration-break: clone;
+  }
+  .markdown-body pre code {
+    background: transparent;
+    border: none;
+    padding: 0;
+    color: inherit;
+    font-size: inherit;
+  }
+  .markdown-body pre { @apply overflow-x-auto; }
+  .code-block-wrap { display: block; }
+  .markdown-body blockquote {
+    @apply pl-4 italic mb-4 border-l-2;
+    border-color: var(--accent);
+    color: var(--text-mid);
+  }
+  .markdown-body table { display: block; overflow-x: auto; width: 100%; border-collapse: collapse; margin-bottom: 1rem; border: 1px solid var(--border); }
+  .markdown-body th {
+    @apply p-2 text-left font-bold border;
+    white-space: nowrap;
+    background: var(--surface);
+    color: var(--accent);
+    border-color: var(--border);
+  }
+  .markdown-body td { @apply p-2 border; color: var(--text-mid); border-color: var(--border); }
+  .markdown-body a  {
+    text-decoration: underline;
+    color: var(--accent);
+    transition: opacity 0.2s;
+  }
+  .markdown-body a:hover { opacity: 0.75; }
+
+  @keyframes cursor-blink {
+    0%, 100% { opacity: 1; }
+    50%       { opacity: 0; }
+  }
+  .animate-cursor-blink { animation: cursor-blink 1s step-end infinite; }
+
+  /* ── Shimmer skeleton loading ─────────────────────────────────────────── */
+  @keyframes shimmer-slide {
+    0%   { transform: translateX(-100%); }
+    100% { transform: translateX(200%); }
+  }
+  .shimmer-anim {
+    position: relative;
+    overflow: hidden;
+    background: var(--surface2);
+    border-radius: 3px;
+  }
+  .shimmer-anim::after {
+    content: '';
+    position: absolute;
+    inset: 0;
+    background: linear-gradient(
+      90deg,
+      transparent 0%,
+      var(--border-light) 50%,
+      transparent 100%
+    );
+    animation: shimmer-slide 1.6s ease-in-out infinite;
+  }
+
+  /* Don't animate transforms/opacity with that rule */
+  button, a { transition-property: background-color, border-color, color, opacity, transform; }
+}
