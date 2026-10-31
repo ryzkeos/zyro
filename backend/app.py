@@ -35,7 +35,7 @@ def create_app():
 
     @app.route("/api/health")
     def health():
-        return {"status": "ok", "service": "Zyro Backend"}, 200
+        return {"status": "ok", "service": "zyro_ai"}, 200
 
     return app
 
