@@ -6,7 +6,7 @@ import remarkGfm from 'remark-gfm';
 import rehypeRaw from 'rehype-raw';
 import rehypeSanitize, { defaultSchema } from 'rehype-sanitize';
 import { motion } from 'motion/react';
-import type { Message, PreProps, TdProps } from '../types';
+import type { Message, PreProps, TdProps } from '../../types';
 import { IconCopy, IconRefresh, IconBranch } from './Icons';
 
 const SANITIZE_SCHEMA = { 

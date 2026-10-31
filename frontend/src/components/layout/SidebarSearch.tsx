@@ -2,7 +2,7 @@
 
 import React from 'react';
 import { IconSearch, IconClose } from '../ui/Icons';
-import type { User } from '../types';
+import type { User } from '../../types';
 
 interface SidebarSearchProps {
   convFilter: string;
