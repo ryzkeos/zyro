@@ -1,6 +1,6 @@
 #!/bin/bash
 # ═══════════════════════════════════════════════════════════════════════════════
-#  ZYRO AI v1.6.4 — Backend Installer
+#  ZYRO AI v1.6.5 — Backend Installer
 # ═══════════════════════════════════════════════════════════════════════════════
 
 set -e
@@ -25,7 +25,7 @@ BOLD='\033[1m'
 print_header() {
     echo ""
     echo -e "${CYAN}╔════════════════════════════════════════════════════════════════╗${RESET}"
-    echo -e "${CYAN}║${RESET}${WHITE}  ZYRO AI  ${DIM}•${RESET}${WHITE}  Backend Installer  ${DIM}•${RESET}${WHITE}  v1.6.4                         ${CYAN}║${RESET}"
+    echo -e "${CYAN}║${RESET}${WHITE}  ZYRO AI  ${DIM}•${RESET}${WHITE}  Backend Installer  ${DIM}•${RESET}${WHITE}  v1.6.5                         ${CYAN}║${RESET}"
     echo -e "${CYAN}╠════════════════════════════════════════════════════════════════╣${RESET}"
     echo -e "${CYAN}║${RESET}  ${DIM}© 2026 Arkeos, Philippines${RESET}                                    ${CYAN}║${RESET}"
     echo -e "${CYAN}╚════════════════════════════════════════════════════════════════╝${RESET}"
@@ -221,5 +221,5 @@ fi
 print_footer
 
 echo -e "${DIM}────────────────────────────────────────────────────────────────────${RESET}"
-echo -e "${DIM}  Zyro AI v1.6.4 • Models: Groq compound + Gemini 3 Flash Preview${RESET}"
+echo -e "${DIM}  Zyro AI v1.6.5 • Models: Groq compound + Gemini 3 Flash Preview${RESET}"
 echo -e "${DIM}────────────────────────────────────────────────────────────────────${RESET}"

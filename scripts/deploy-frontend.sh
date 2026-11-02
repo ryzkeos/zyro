@@ -1,6 +1,6 @@
 #!/bin/bash
 # ═══════════════════════════════════════════════════════════════════════════════
-#  ZYRO AI — v1.6.4 — Frontend Deployer
+#  ZYRO AI — v1.6.5 — Frontend Deployer
 #  © 2026 John Ruenz, Philippines
 # ═══════════════════════════════════════════════════════════════════════════════
 
@@ -11,7 +11,7 @@ FRONTEND_DIR="$PROJECT_DIR/frontend"
 CONFIG_DIR="$FRONTEND_DIR/config"
 
 echo "═══════════════════════════════════════════════════════════════"
-echo "  ZYRO AI — v1.6.4 — Frontend Deployer"
+echo "  ZYRO AI — v1.6.5 — Frontend Deployer"
 echo "  Mode: $MODE"
 echo "═══════════════════════════════════════════════════════════════"
 

@@ -4,7 +4,7 @@ import tailwindcss from '@tailwindcss/vite'
 import path from 'path'
 
 // ═══════════════════════════════════════════════════════════════════════════════
-//  ZYRO AI — v1.6.4 — Vite Configuration
+//  ZYRO AI — v1.6.5 — Vite Configuration
 //  © 2026 John Ruenz, Philippines
 // ═══════════════════════════════════════════════════════════════════════════════
 

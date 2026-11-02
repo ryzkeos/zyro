@@ -1,6 +1,6 @@
 #!/bin/bash
 # ═══════════════════════════════════════════════════════════════════════════════
-#  ZYRO AI — v1.6.4 — Backend Deployer
+#  ZYRO AI — v1.6.5 — Backend Deployer
 #  © 2026 John Ruenz, Philippines
 # ═══════════════════════════════════════════════════════════════════════════════
 
@@ -10,7 +10,7 @@ PROJECT_DIR="$(dirname "$SCRIPT_DIR")"
 BACKEND_DIR="$PROJECT_DIR/backend"
 
 echo "═══════════════════════════════════════════════════════════════"
-echo "  ZYRO AI — v1.6.4 — Backend Deployer"
+echo "  ZYRO AI — v1.6.5 — Backend Deployer"
 echo "  Mode: $MODE"
 echo "═══════════════════════════════════════════════════════════════"
 

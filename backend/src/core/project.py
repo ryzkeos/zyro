@@ -1,4 +1,4 @@
-VERSION = "1.6.4"
+VERSION = "1.6.5"
 APP_NAME = "Zyro AI"
 AUTHOR = "John Ruenz"
 COMPANY = "Arkeos"
