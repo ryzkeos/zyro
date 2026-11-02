@@ -1,4 +1,4 @@
-const CACHE = "zyro-v1.6.4";
+const CACHE = "zyro-v1.6.5";
 const PRECACHE = ["/", "/manifest.json"];
 
 self.addEventListener("install", (e) => {
