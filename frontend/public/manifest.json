@@ -1,0 +1,28 @@
+{
+  "name": "Zyro AI",
+  "short_name": "Zyro",
+  "description": "Your AI assistant \u2014 powered by Zyro",
+  "start_url": "/",
+  "display": "standalone",
+  "display_override": [
+    "standalone",
+    "minimal-ui",
+    "browser"
+  ],
+  "background_color": "#000000",
+  "theme_color": "#000000",
+  "orientation": "portrait-primary",
+  "icons": [],
+  "categories": [
+    "productivity",
+    "utilities"
+  ],
+  "shortcuts": [
+    {
+      "name": "New Chat",
+      "short_name": "New Chat",
+      "url": "/?new=1",
+      "description": "Start a new Zyro conversation"
+    }
+  ]
+}
