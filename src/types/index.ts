@@ -1,5 +1,3 @@
-// Core types for Zyro AI Chat Application
-
 export type Persona = 'default' | 'formal' | 'concise' | 'precise' | 'creative';
 export type InterfaceTheme = 'dark' | 'dim' | 'light';
 export type ColorTheme = 'rose' | 'matcha' | 'purple' | 'skyblue' | 'monochrome' | 'sunset-yellow';
@@ -41,8 +39,6 @@ export interface Settings {
   colorTheme: ColorTheme;
   aiInstructions: string;
 }
-
-// Extended types
 
 export interface SearchResult {
   messageId: string;
@@ -90,7 +86,6 @@ export interface PendingImage {
   preview: string;
 }
 
-// API Types
 export interface ChatMessage {
   role: 'user' | 'assistant';
   content: string;
@@ -108,13 +103,11 @@ export interface PushSubscriptionData {
   keys: PushSubscriptionKeys;
 }
 
-// PWA Install Prompt Event
 export interface BeforeInstallPromptEvent extends Event {
   prompt: () => Promise<void>;
   userChoice: Promise<{ outcome: 'accepted' | 'dismissed' }>;
 }
 
-// React Markdown Component Props
 export interface PreProps {
   children?: React.ReactNode;
 }
@@ -123,7 +116,6 @@ export interface TdProps extends React.TdHTMLAttributes<HTMLTableCellElement> {
   children?: React.ReactNode;
 }
 
-// AbortSignal with any method (for older browsers)
 export interface AbortSignalWithAny extends AbortSignal {
   any?: (signals: AbortSignal[]) => AbortSignal;
 }

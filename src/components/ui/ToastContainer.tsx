@@ -1,5 +1,3 @@
-// Toast notification component for Zyro AI Chat
-
 import React from 'react';
 import { motion, AnimatePresence } from 'motion/react';
 import type { Toast as ToastType } from '../../types';

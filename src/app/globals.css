@@ -22,7 +22,6 @@
 
 @layer base {
 
-  /* ── BASE: Dark (pure black) ────────────────────────────────────────────── */
   :root {
     --bg:           #000000;
     --surface:      #0d0d0d;
@@ -37,7 +36,6 @@
     --accent-soft:  rgba(216,216,216,0.10);
   }
 
-  /* ── BASE: Dim ──────────────────────────────────────────────────────────── */
   [data-theme='dim'] {
     --bg:           #161616;
     --surface:      #202020;
@@ -52,7 +50,6 @@
     --accent-soft:  rgba(204,204,204,0.10);
   }
 
-  /* ── BASE: Light ────────────────────────────────────────────────────────── */
   [data-theme='light'] {
     --bg:           #fafafa;
     --surface:      #f0f0f0;
@@ -67,11 +64,6 @@
     --accent-soft:  rgba(0,0,0,0.07);
   }
 
-  /* ══════════════════════════════════════════════════════════════════════════
-     COLOR THEMES
-  ══════════════════════════════════════════════════════════════════════════ */
-
-  /* ── Rose ─────────────────────────────────────────────────────────────── */
   [data-color-theme='rose'] {
     --silver:       #f06088;
     --accent:       #f06088;
@@ -112,7 +104,6 @@
     --text-dim:     #785060;
   }
 
-  /* ── Matcha ───────────────────────────────────────────────────────────── */
   [data-color-theme='matcha'] {
     --silver:       #6ec855;
     --accent:       #6ec855;
@@ -153,7 +144,6 @@
     --text-dim:     #507050;
   }
 
-  /* ── Purple ───────────────────────────────────────────────────────────── */
   [data-color-theme='purple'] {
     --silver:       #b868f8;
     --accent:       #b868f8;
@@ -194,7 +184,6 @@
     --text-dim:     #685080;
   }
 
-  /* ── Sky Blue ─────────────────────────────────────────────────────────── */
   [data-color-theme='skyblue'] {
     --silver:       #38c0f8;
     --accent:       #38c0f8;
@@ -235,7 +224,6 @@
     --text-dim:     #406880;
   }
 
-  /* ── Monochrome ───────────────────────────────────────────────────────── */
   [data-color-theme='monochrome'] {
     --bg:           #000000;
     --surface:      #0e0e0e;
@@ -276,7 +264,6 @@
     --accent-soft:  rgba(216,216,216,0.10);
   }
 
-  /* ── Sunset Yellow ────────────────────────────────────────────────────── */
   [data-color-theme='sunset-yellow'] {
     --silver:       #f0b830;
     --accent:       #f0b830;
@@ -317,7 +304,6 @@
     --text-dim:     #806030;
   }
 
-  /* ── Body ─────────────────────────────────────────────────────────────── */
   body {
     @apply bg-bg text-text font-mono text-[13px] leading-[1.75];
     -webkit-font-smoothing: antialiased;
@@ -338,7 +324,6 @@
 
 @layer utilities {
 
-  /* Accent glow ring — used on active elements */
   .accent-ring {
     box-shadow: 0 0 0 1px var(--accent), 0 0 12px var(--accent-soft);
   }
@@ -352,13 +337,11 @@
   }
   .silver-underline:hover::after { width: 100%; }
 
-  /* ── Message row optimization ─────────────────────────────────────────── */
   .message-row {
     content-visibility: auto;
     contain-intrinsic-size: 0 200px;
   }
 
-  /* ── Markdown ─────────────────────────────────────────────────────────── */
   .markdown-body { @apply space-y-4; word-break: break-word; overflow-wrap: break-word; }
   .markdown-body h1 {
     @apply text-xl font-bold pb-2 mt-6 mb-4 border-b;
@@ -423,7 +406,6 @@
   }
   .animate-cursor-blink { animation: cursor-blink 1s step-end infinite; }
 
-  /* ── Shimmer skeleton loading ─────────────────────────────────────────── */
   @keyframes shimmer-slide {
     0%   { transform: translateX(-100%); }
     100% { transform: translateX(200%); }
@@ -447,6 +429,5 @@
     animation: shimmer-slide 1.6s ease-in-out infinite;
   }
 
-  /* Don't animate transforms/opacity with that rule */
   button, a { transition-property: background-color, border-color, color, opacity, transform; }
 }

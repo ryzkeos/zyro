@@ -18,14 +18,6 @@ async function keyFor(req: NextRequest): Promise<string> {
   return `ip:${(fwd ? fwd.split(',')[0] : req.headers.get('x-real-ip') || 'unknown').trim()}`;
 }
 
-/**
- * fixed window limiter, same behavior as flask-limiter's memory store (per instance).
- * pass several limits for stacked rules, e.g. "5 per minute; 20 per hour".
- * returns a 429 Response when blocked, otherwise null.
- *
- *   const blocked = await rateLimit(req, 'login', [{ limit: 10, windowSec: 60 }, { limit: 50, windowSec: 3600 }]);
- *   if (blocked) return blocked;
- */
 export async function rateLimit(req: NextRequest, name: string, limits: Limit[]): Promise<Response | null> {
   const id = await keyFor(req);
   const now = Date.now();

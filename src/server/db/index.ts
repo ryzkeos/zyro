@@ -3,7 +3,6 @@ import { Pool } from 'pg';
 import { config } from '../config';
 import * as schema from './schema';
 
-// cache the pool on globalThis so dev hot reload does not open a new pool each time
 const g = globalThis as unknown as { __zyroPool?: Pool };
 
 function getPool(): Pool {
@@ -12,7 +11,7 @@ function getPool(): Pool {
     g.__zyroPool = new Pool({
       connectionString: config.databaseUrl,
       max: 5,
-      keepAlive: true, // replaces the neon keepalive timer from the flask app
+      keepAlive: true,
     });
   }
   return g.__zyroPool;

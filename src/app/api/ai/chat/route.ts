@@ -73,7 +73,6 @@ export const POST = withOptionalAuth(async (req, user) => {
         try {
           controller.close();
         } catch {
-          /* already closed by cancel */
         }
       }
     },

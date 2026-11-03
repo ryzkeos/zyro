@@ -1,5 +1,3 @@
-// Message display components for Zyro AI Chat
-
 import React, { useMemo, useState } from 'react';
 import ReactMarkdown from 'react-markdown';
 import remarkGfm from 'remark-gfm';
@@ -181,7 +179,6 @@ export const MessageBubble = React.memo(({
   );
 });
 
-// Typing indicator
 export const TypingIndicator = () => (
   <div className="flex items-center gap-[5px] h-5">
     {[0, 1, 2].map(i => (
@@ -195,7 +192,6 @@ export const TypingIndicator = () => (
   </div>
 );
 
-// Shimmer loading block
 export const ShimmerBlock = ({ w = '100%', h = 14 }: { w?: string; h?: number }) => (
   <div 
     className="rounded shimmer-anim"
@@ -203,7 +199,6 @@ export const ShimmerBlock = ({ w = '100%', h = 14 }: { w?: string; h?: number })
   />
 );
 
-// Response skeleton
 export const ResponseSkeleton = () => (
   <div className="flex flex-col items-start gap-3 w-full max-w-[420px]">
     <ShimmerBlock w="60%" h={10} />
@@ -213,7 +208,6 @@ export const ResponseSkeleton = () => (
   </div>
 );
 
-// Streaming message
 interface StreamingMessageProps {
   text: string;
   aiName: string;

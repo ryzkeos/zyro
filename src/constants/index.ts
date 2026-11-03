@@ -1,5 +1,3 @@
-// Constants for Zyro AI Chat Application
-
 import { defaultSchema } from 'rehype-sanitize';
 
 export const API = '';

@@ -1,4 +1,3 @@
-// mirrors backend/src/core/models.py. table and column names are kept identical so existing databases keep working.
 import { relations } from 'drizzle-orm';
 import {
   bigint, boolean, index, integer, pgTable, serial, text, timestamp, varchar,

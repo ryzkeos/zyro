@@ -1,4 +1,3 @@
-// all env access goes through here. values are read lazily so `next build` never needs secrets.
 import { randomBytes } from 'crypto';
 
 const INSECURE_SECRETS = new Set([
