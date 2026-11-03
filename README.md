@@ -4,7 +4,7 @@ AI Assistant Under Arkeos.
 
 ## About
 
-Zyro is a full chat app with two models behind one interface. Xenon 1.0 (Groq compound) handles fast everyday tasks, and Yuruzu 1.0 (Gemini 3 Flash Preview) handles reasoning and image understanding. Replies stream in as they are written, conversations are saved, and the app installs on a phone or desktop like a native app.
+Zyro is a full chat app with two models behind one interface. Xenon 1.0 handles fast everyday tasks, and Yuruzu 1.0 handles reasoning and image understanding. Replies stream in as they are written, conversations are saved, and the app installs on a phone or desktop like a native app.
 
 You can stop, resume, regenerate, copy and branch a reply, upload images on Yuruzu, and find any past chat with full text search. Titles are written automatically, and chats can be pinned or renamed.
 
@@ -14,8 +14,9 @@ It is made to feel personal. Pick from 5 personas and 6 color themes, switch bet
 
 - Author: John Ruenz (ryzkeos)
 - Published: October 31, 2026
-- Models: Xenon 1.0 (Groq compound), Yuruzu 1.0 (Gemini 3 Flash Preview)
+- Models: Xenon 1.0, Yuruzu 1.0
 - Built with: React, Vite, TypeScript, Tailwind CSS, Flask, PostgreSQL, Upstash Redis
+- Credits to Gemini and Groq for AI model provider.
 
 ## Version History
 
@@ -26,7 +27,7 @@ It is made to feel personal. Pick from 5 personas and 6 color themes, switch bet
 
 ### v1.5.0 Model Update
 
-- Xenon now runs on Groq compound and Yuruzu on Gemini 3 Flash Preview.
+- Updated the models behind Xenon and Yuruzu.
 
 ### v1.6.2 Ports In Readme
 
