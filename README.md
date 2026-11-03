@@ -13,7 +13,7 @@ It is made to feel personal. Pick from 5 personas and 6 color themes, switch bet
 ## Credits
 
 - Author: John Ruenz (ryzkeos)
-- Published: October 31, 2026
+- Published: November 1, 2026
 - Models: Xenon 1.0, Yuruzu 1.0
 - Built with: React, Vite, TypeScript, Tailwind CSS, Flask, PostgreSQL, Upstash Redis
 - Credits to Gemini and Groq for AI model provider.
