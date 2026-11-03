@@ -2,7 +2,7 @@
 
 import { defaultSchema } from 'rehype-sanitize';
 
-export const API = import.meta.env.VITE_API_URL || '';
+export const API = '';
 
 export const MODEL_NAMES: Record<string, string> = {
   'xenon-1.0': 'Xenon 1.0',

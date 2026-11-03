@@ -1,6 +1,6 @@
+'use client';
+
 import React, { useState, useEffect, useRef, useCallback, useMemo } from 'react';
-import { StrictMode } from 'react';
-import { createRoot } from 'react-dom/client';
 import { motion, AnimatePresence } from 'motion/react';
 import type { Conversation, Message, Settings, Persona, InterfaceTheme, ColorTheme, User, SettingsView, AuthForm, ProfileForm, PasswordForm, DeleteForm, PendingImage, SearchResult } from './types';
 import { buildSystemPrompt } from './services/aiConfig';
@@ -703,6 +703,3 @@ export default function App() {
     </div>
   );
 }
-
-const root = document.getElementById('root');
-if (root) createRoot(root).render(<StrictMode><App /></StrictMode>);

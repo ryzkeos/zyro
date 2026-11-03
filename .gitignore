@@ -10,3 +10,9 @@ __pycache__/
 !.env.example
 database/*.db
 frontend/dist/
+
+# next.js
+.next/
+next-env.d.ts
+*.tsbuildinfo
+out/

@@ -2,7 +2,7 @@
 
 import { Conversation, Message, User, Settings, SearchResult, ChatMessage, PushSubscriptionData } from '../types';
 
-const API = import.meta.env.VITE_API_URL || '';
+const API = '';
 
 // ── Auth API ──────────────────────────────────────────────────────────────────
 
@@ -120,12 +120,12 @@ export const authApi = {
 
 export const conversationsApi = {
   async list(): Promise<Conversation[]> {
-    const res = await fetch(`${API}/api/conversations/`, { credentials: 'include' });
+    const res = await fetch(`${API}/api/conversations`, { credentials: 'include' });
     return res.json();
   },
 
   async create(title: string): Promise<Conversation> {
-    const res = await fetch(`${API}/api/conversations/`, {
+    const res = await fetch(`${API}/api/conversations`, {
       method: 'POST',
       credentials: 'include',
       headers: { 'Content-Type': 'application/json' },
@@ -287,7 +287,7 @@ export const aiApi = {
 
 export const searchApi = {
   async search(query: string): Promise<SearchResult[]> {
-    const res = await fetch(`${API}/api/search/?q=${encodeURIComponent(query)}`, {
+    const res = await fetch(`${API}/api/search?q=${encodeURIComponent(query)}`, {
       credentials: 'include',
     });
     return res.json();
