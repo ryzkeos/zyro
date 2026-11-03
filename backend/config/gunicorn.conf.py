@@ -1,5 +1,5 @@
 """
-Gunicorn configuration for Zyro AI v1.6.4
+Gunicorn configuration for Zyro AI v1.6.5
 Production-ready WSGI server settings
 """
 

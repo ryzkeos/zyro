@@ -24,8 +24,8 @@ def _get_client():
 
 
 def _prompt_key(model: str, system_prompt: str, messages: list, user_id: str) -> str:
-    safe = [{"role": m.get("role", ""), "content": str(m.get("content", ""))[:500]} for m in messages]
-    raw = json.dumps({"m": model, "s": system_prompt[:200], "msgs": safe, "u": user_id},
+    safe = [{"role": m.get("role", ""), "content": str(m.get("content", ""))} for m in messages]
+    raw = json.dumps({"m": model, "s": system_prompt, "msgs": safe, "u": user_id},
                      sort_keys=True, ensure_ascii=False)
     return "zyro:ai:" + hashlib.sha256(raw.encode()).hexdigest()
 
