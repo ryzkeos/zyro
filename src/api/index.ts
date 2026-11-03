@@ -1,10 +1,6 @@
-// API layer for Zyro AI Chat Application
-
 import { Conversation, Message, User, Settings, SearchResult, ChatMessage, PushSubscriptionData } from '../types';
 
 const API = '';
-
-// ── Auth API ──────────────────────────────────────────────────────────────────
 
 export const authApi = {
   async me(): Promise<{ user: User | null }> {
@@ -116,8 +112,6 @@ export const authApi = {
   },
 };
 
-// ── Conversations API ────────────────────────────────────────────────────────
-
 export const conversationsApi = {
   async list(): Promise<Conversation[]> {
     const res = await fetch(`${API}/api/conversations`, { credentials: 'include' });
@@ -186,8 +180,6 @@ export const conversationsApi = {
   },
 };
 
-// ── AI API ───────────────────────────────────────────────────────────────────
-
 export const aiApi = {
   async autoTitle(messages: { role: string; content: string }[]): Promise<{ title: string }> {
     const res = await fetch(`${API}/api/ai/auto-title`, {
@@ -213,7 +205,6 @@ export const aiApi = {
     const timeoutController = new AbortController();
     const timeoutId = setTimeout(() => timeoutController.abort(), 30000);
 
-    // Combine signals if AbortSignal.any is available
     const signal = typeof AbortSignal !== 'undefined' && 'any' in AbortSignal
       ? (AbortSignal as unknown as { any: (signals: AbortSignal[]) => AbortSignal }).any([controller.signal, timeoutController.signal])
       : controller.signal;
@@ -283,8 +274,6 @@ export const aiApi = {
   },
 };
 
-// ── Search API ───────────────────────────────────────────────────────────────
-
 export const searchApi = {
   async search(query: string): Promise<SearchResult[]> {
     const res = await fetch(`${API}/api/search?q=${encodeURIComponent(query)}`, {
@@ -293,8 +282,6 @@ export const searchApi = {
     return res.json();
   },
 };
-
-// ── Push API ─────────────────────────────────────────────────────────────────
 
 export const pushApi = {
   async getVapidPublicKey(): Promise<{ publicKey: string }> {
@@ -320,8 +307,6 @@ export const pushApi = {
     });
   },
 };
-
-// ── Health API ──────────────────────────────────────────────────────────────
 
 export const healthApi = {
   async check(): Promise<{ status: string; service: string; version: string }> {

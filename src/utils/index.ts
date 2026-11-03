@@ -1,9 +1,6 @@
-// Utility functions for Zyro AI Chat Application
-
 import type { Conversation } from '../types';
 import { GUEST_LIMIT, GUEST_WINDOW_MS, MODEL_NAMES } from '../constants';
 
-// Guest rate limiter module pattern
 const guestRateLimiter = {
   timestamps: [] as number[],
   check(): boolean {
@@ -47,7 +44,6 @@ export function saveGuestConvs(c: Conversation[]): void {
   try {
     sessionStorage.setItem('zyro_guest', JSON.stringify(used));
   } catch {
-    // Storage full or unavailable
   }
 }
 

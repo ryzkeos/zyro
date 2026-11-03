@@ -1,5 +1,3 @@
-// Sidebar search component for Zyro AI Chat
-
 import React from 'react';
 import { IconSearch, IconClose } from '../ui/Icons';
 import type { User } from '../../types';

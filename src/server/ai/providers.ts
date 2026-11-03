@@ -155,7 +155,6 @@ async function tryYuruzu(apiKey: string, model: string, payload: GeminiPayload, 
       const body = (await resp.json()) as { error?: { message?: string } };
       if (body.error?.message) message = body.error.message;
     } catch {
-      /* keep the generic message */
     }
     throw new TerminalAPIError(`Yuruzu error: ${message}`);
   }
