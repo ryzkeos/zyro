@@ -1,5 +1,3 @@
-// ZyroLogo animated SVG component
-
 import React from 'react';
 
 export const ZyroLogo: React.FC<{ size?: number }> = ({ size = 100 }) => (

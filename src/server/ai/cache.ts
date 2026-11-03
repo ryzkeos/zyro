@@ -42,7 +42,6 @@ export async function setCached(model: string, systemPrompt: string, messages: C
   try {
     await r.set(promptKey(model, systemPrompt, messages, userId), reply, { ex: config.redisTtl });
   } catch {
-    /* cache is best effort */
   }
 }
 
@@ -63,7 +62,6 @@ export async function setStream(streamId: string, body: string): Promise<void> {
   try {
     await r.set(`zyro:stream:${streamId}`, body, { ex: STREAM_TTL });
   } catch {
-    /* cache is best effort */
   }
 }
 

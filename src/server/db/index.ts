@@ -3,7 +3,6 @@ import { Pool } from 'pg';
 import { config } from '../config';
 import * as schema from './schema';
 
-// cache the pool on globalThis so dev hot reload does not open a new pool each time
 const g = globalThis as unknown as { __zyroPool?: Pool };
 
 function getPool(): Pool {

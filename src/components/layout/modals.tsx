@@ -1,9 +1,5 @@
-// Modal Components for Zyro AI Chat Application
-
 import React from 'react';
 import { motion, AnimatePresence } from 'motion/react';
-
-// ── AuthModal ────────────────────────────────────────────────────────────────
 
 interface AuthModalProps {
   mode: 'login' | 'register';
@@ -109,8 +105,6 @@ export const AuthModal: React.FC<AuthModalProps> = ({
   </AnimatePresence>
 );
 
-// ── ForgotModal ───────────────────────────────────────────────────────────────
-
 interface ForgotModalProps {
   isOpen: boolean;
   onClose: () => void;
@@ -179,8 +173,6 @@ export const ForgotModal: React.FC<ForgotModalProps> = ({
   </AnimatePresence>
 );
 
-// ── ResetModal ────────────────────────────────────────────────────────────────
-
 interface ResetModalProps {
   isOpen: boolean;
   password: string;
@@ -247,8 +239,6 @@ export const ResetModal: React.FC<ResetModalProps> = ({
   </AnimatePresence>
 );
 
-// ── VerifyModal ───────────────────────────────────────────────────────────────
-
 interface VerifyModalProps {
   isOpen: boolean;
   onClose: () => void;
@@ -280,8 +270,6 @@ export const VerifyModal: React.FC<VerifyModalProps> = ({ isOpen, onClose, email
     )}
   </AnimatePresence>
 );
-
-// ── RenameModal ────────────────────────────────────────────────────────────────
 
 interface RenameModalProps {
   isOpen: boolean;
@@ -326,8 +314,6 @@ export const RenameModal: React.FC<RenameModalProps> = ({ isOpen, onClose, value
   </AnimatePresence>
 );
 
-// ── ConfirmModal ──────────────────────────────────────────────────────────────
-
 interface ConfirmModalProps {
   isOpen: boolean;
   onClose: () => void;
@@ -367,8 +353,6 @@ export const ConfirmModal: React.FC<ConfirmModalProps> = ({
     )}
   </AnimatePresence>
 );
-
-// ── SearchModal ───────────────────────────────────────────────────────────────
 
 interface SearchResult {
   messageId: string;
@@ -456,8 +440,6 @@ export const SearchModal: React.FC<SearchModalProps> = ({
     )}
   </AnimatePresence>
 );
-
-// ── ImageModal ────────────────────────────────────────────────────────────────
 
 interface ImageModalProps {
   src: string | null;

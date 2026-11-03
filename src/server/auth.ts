@@ -7,7 +7,6 @@ import { users, type User } from './db/schema';
 
 const key = () => new TextEncoder().encode(getSecretKey());
 
-/** same payload as the flask app: { user_id, iat, exp }, HS256 */
 export async function signToken(userId: string): Promise<string> {
   return new SignJWT({ user_id: userId })
     .setProtectedHeader({ alg: 'HS256' })
@@ -50,7 +49,6 @@ export function clearAuthCookie(res: NextResponse): void {
   });
 }
 
-/** user shape the frontend expects (User.to_dict in flask) */
 export function userToDict(u: User) {
   return {
     id: u.id,
@@ -62,7 +60,6 @@ export function userToDict(u: User) {
   };
 }
 
-/** short lived signed tokens for email verify / password reset (replaces itsdangerous) */
 export async function signPurposeToken(purpose: string, sub: string, expiresIn: string): Promise<string> {
   return new SignJWT({ purpose })
     .setProtectedHeader({ alg: 'HS256' })
