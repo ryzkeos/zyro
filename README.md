@@ -44,7 +44,7 @@ It is made to feel personal. Pick from 5 personas and 6 color themes, switch bet
 - Added install and deploy scripts in scripts/.
 - Fixed type imports and vite client types so tsc passes.
 
-### v1.6.5 (2026-11-03) Readme Format
+### v1.6.5 (2026-11-03) Prompt Cache Fix
 
-- Rewrote the readme in the Arkeos format with an about section, credits and a version history grouped by logical change.
-- Removed the installation, usage, structure and API sections.
+- Fixed the reply cache key in ai_cache.py. It only used the first 500 characters of each message and the first 200 of the system prompt, so long prompts that differ later got the wrong cached reply for up to an hour.
+- The key now uses the full message text and system prompt.
