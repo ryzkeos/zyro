@@ -50,7 +50,8 @@ self.addEventListener("notificationclick", (e) => {
   const target = e.notification.data?.url || "/";
   e.waitUntil(
     clients.matchAll({ type: "window", includeUncontrolled: true }).then((cs) => {
-      const existing = cs.find((c) => c.url === target && "focus" in c);
+      const full = new URL(target, self.location.origin).href;
+      const existing = cs.find((c) => c.url === full && "focus" in c);
       return existing ? existing.focus() : clients.openWindow(target);
     })
   );
