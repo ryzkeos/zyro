@@ -13,12 +13,14 @@ It is made to feel personal. Pick from 5 personas and 6 color themes, switch bet
 ## Credits
 
 - Author: John Ruenz (ryzkeos)
-- Published: October 31, 2026
+- Published: November 1, 2026
 - Models: Xenon 1.0, Yuruzu 1.0
 - Built with: React, Vite, TypeScript, Tailwind CSS, Flask, PostgreSQL, Upstash Redis
 - Credits to Gemini and Groq for AI model provider.
 
 ## Version History
+
+Versions v0.1 to v1.5.0 were built before this repository existed and are not tracked here. Their history is in the web-projects repository.
 
 ### v0.1 (2026-10-31) Backend And Frontend Split
 
