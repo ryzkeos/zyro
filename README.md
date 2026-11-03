@@ -20,6 +20,8 @@ It is made to feel personal. Pick from 5 personas and 6 color themes, switch bet
 
 ## Version History
 
+Versions v0.1 to v1.5.0 were built before this repository existed and are not tracked here. Their history is in the web-projects repository.
+
 ### v0.1 (2026-10-31) Backend And Frontend Split
 
 - Split the project into backend and frontend folders.
