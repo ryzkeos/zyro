@@ -11,7 +11,7 @@ function getPool(): Pool {
     g.__zyroPool = new Pool({
       connectionString: config.databaseUrl,
       max: 5,
-      keepAlive: true, // replaces the neon keepalive timer from the flask app
+      keepAlive: true,
     });
   }
   return g.__zyroPool;
