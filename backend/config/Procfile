@@ -1,1 +1,0 @@
-web: gunicorn src.core.app:app -c config/gunicorn.conf.py --bind 0.0.0.0:$PORT
