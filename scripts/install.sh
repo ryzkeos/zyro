@@ -1,13 +1,10 @@
 #!/bin/bash
 # ═══════════════════════════════════════════════════════════════════════════════
-#  ZYRO AI v1.6.5 — Backend Installer
+#  ZYRO AI v2.0.0 — Installer
 # ═══════════════════════════════════════════════════════════════════════════════
 
 set -e
 
-# ─────────────────────────────────────────────────────────────────────────────
-#  Color Definitions
-# ─────────────────────────────────────────────────────────────────────────────
 RED='\033[0;31m'
 GREEN='\033[0;32m'
 YELLOW='\033[0;33m'
@@ -18,14 +15,10 @@ DIM='\033[2m'
 RESET='\033[0m'
 BOLD='\033[1m'
 
-# ─────────────────────────────────────────────────────────────────────────────
-#  Helper Functions
-# ─────────────────────────────────────────────────────────────────────────────
-
 print_header() {
     echo ""
     echo -e "${CYAN}╔════════════════════════════════════════════════════════════════╗${RESET}"
-    echo -e "${CYAN}║${RESET}${WHITE}  ZYRO AI  ${DIM}•${RESET}${WHITE}  Backend Installer  ${DIM}•${RESET}${WHITE}  v1.6.5                         ${CYAN}║${RESET}"
+    echo -e "${CYAN}║${RESET}${WHITE}  ZYRO AI  ${DIM}•${RESET}${WHITE}  Installer  ${DIM}•${RESET}${WHITE}  v2.0.0                             ${CYAN}║${RESET}"
     echo -e "${CYAN}╠════════════════════════════════════════════════════════════════╣${RESET}"
     echo -e "${CYAN}║${RESET}  ${DIM}© 2026 Arkeos, Philippines${RESET}                                    ${CYAN}║${RESET}"
     echo -e "${CYAN}╚════════════════════════════════════════════════════════════════╝${RESET}"
@@ -33,41 +26,15 @@ print_header() {
 }
 
 print_step() {
-    local step_num=$1
-    local total=$2
-    local desc=$3
     echo -e "${BLUE}━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━${RESET}"
-    echo -e "  ${BOLD}[${step_num}/${total}]${RESET} ${WHITE}${desc}${RESET}"
+    echo -e "  ${BOLD}[$1/$2]${RESET} ${WHITE}$3${RESET}"
     echo -e "${BLUE}━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━${RESET}"
 }
 
-print_success() {
-    echo -e "  ${GREEN}✓${RESET} $1"
-}
-
-print_warning() {
-    echo -e "  ${YELLOW}!${RESET} $1"
-}
-
-print_error() {
-    echo -e "  ${RED}✗${RESET} $1"
-}
-
-print_info() {
-    echo -e "  ${DIM}→${RESET} $1"
-}
-
-print_box() {
-    local title=$1
-    local content=$2
-    echo -e "${CYAN}┌──────────────────────────────────────────────────────────────────┐${RESET}"
-    echo -e "${CYAN}│${RESET} ${BOLD}${title}${RESET}"
-    echo -e "${CYAN}│${RESET}"
-    while IFS= read -r line; do
-        echo -e "${CYAN}│${RESET} $line"
-    done <<< "$content"
-    echo -e "${CYAN}└──────────────────────────────────────────────────────────────────┘${RESET}"
-}
+print_success() { echo -e "  ${GREEN}✓${RESET} $1"; }
+print_warning() { echo -e "  ${YELLOW}!${RESET} $1"; }
+print_error()   { echo -e "  ${RED}✗${RESET} $1"; }
+print_info()    { echo -e "  ${DIM}→${RESET} $1"; }
 
 print_footer() {
     echo ""
@@ -76,150 +43,91 @@ print_footer() {
     echo -e "${GREEN}╠════════════════════════════════════════════════════════════════╣${RESET}"
     echo -e "${GREEN}║${RESET}"
     echo -e "${GREEN}║${RESET}  ${CYAN}Next Steps:${RESET}"
-    echo -e "${GREEN}║${RESET}  ${WHITE}1.${RESET} cd .. && source venv/bin/activate"
-    echo -e "${GREEN}║${RESET}  ${WHITE}2.${RESET} cp config/.env.example config/.env && nano config/.env"
-    echo -e "${GREEN}║${RESET}  ${WHITE}3.${RESET} cd .. && bash scripts/deploy-backend.sh --dev"
+    echo -e "${GREEN}║${RESET}  ${WHITE}1.${RESET} nano .env.local"
+    echo -e "${GREEN}║${RESET}  ${WHITE}2.${RESET} npm run db:push"
+    echo -e "${GREEN}║${RESET}  ${WHITE}3.${RESET} bash scripts/deploy-frontend.sh --dev"
     echo -e "${GREEN}║${RESET}"
-    echo -e "${GREEN}║${RESET}  ${DIM}Tip: Set DATABASE_URL=sqlite:///../database/zyro.db for local dev${RESET}"
+    echo -e "${GREEN}║${RESET}  ${DIM}Tip: DATABASE_URL must point to a PostgreSQL database${RESET}"
     echo -e "${GREEN}╚════════════════════════════════════════════════════════════════╝${RESET}"
     echo ""
 }
 
-# ═══════════════════════════════════════════════════════════════════════════════
-#  Main Installation
-# ═══════════════════════════════════════════════════════════════════════════════
+SCRIPT_DIR="$(cd "$(dirname "${BASH_SOURCE[0]}")" && pwd)"
+PROJECT_DIR="$(dirname "$SCRIPT_DIR")"
 
 print_header
 
-# Detect script location and set paths
-SCRIPT_DIR="$(cd "$(dirname "${BASH_SOURCE[0]}")" && pwd)"
-PROJECT_DIR="$(dirname "$SCRIPT_DIR")"
-BACKEND_DIR="$PROJECT_DIR/backend"
-CONFIG_DIR="$BACKEND_DIR/config"
+cd "$PROJECT_DIR" || { print_error "Cannot cd to project directory"; exit 1; }
 
-# Change to backend directory
-cd "$BACKEND_DIR" || { print_error "Cannot cd to backend directory"; exit 1; }
+print_step 1 5 "Checking Node.js"
 
-# Detect environment
-IS_TERMUX=false
-if [ -n "$TERMUX_VERSION" ] || [ -d "/data/data/com.termux" ]; then
-    IS_TERMUX=true
-fi
-
-if [ "$IS_TERMUX" = false ]; then
-    print_box "Standard Environment" "Running normal pip install...
-No Termux-specific adjustments needed."
-    echo ""
-    
-    print_step 1 2 "Installing setuptools & wheel"
-    pip install --upgrade setuptools wheel
-    print_success "Base packages installed"
-    
-    print_step 2 2 "Installing Python dependencies"
-    pip install -r "$CONFIG_DIR/requirements.txt"
-    print_success "All dependencies installed"
-    
-    print_footer
-    exit 0
-fi
-
-# ═══════════════════════════════════════════════════════════════════════════════
-#  Termux Installation
-# ═══════════════════════════════════════════════════════════════════════════════
-
-print_box "Termux Detected" "Android environment found.
-Using optimized installation path with native packages."
-
-# ─────────────────────────────────────────────────────────────────────────────
-#  Step 1: Native Packages
-# ─────────────────────────────────────────────────────────────────────────────
-print_step 1 4 "Installing native packages via pkg"
-
-if pkg install -y python-cryptography python-bcrypt 2>/dev/null; then
-    print_success "python-cryptography installed"
-    print_success "python-bcrypt installed"
-else
-    print_warning "Some native packages may already be installed"
-fi
-
-# ─────────────────────────────────────────────────────────────────────────────
-#  Step 2: Virtual Environment
-# ─────────────────────────────────────────────────────────────────────────────
-print_step 2 4 "Setting up virtual environment"
-
-VENV_DIR="venv"
-if [ -d "$VENV_DIR" ]; then
-    print_info "Removing existing venv..."
-    rm -rf "$VENV_DIR"
-fi
-
-if python -m venv "$VENV_DIR" --system-site-packages; then
-    print_success "Virtual environment created with --system-site-packages"
-else
-    print_error "Failed to create venv"
+if ! command -v node >/dev/null 2>&1; then
+    print_error "node not found. Install Node.js 18.18 or newer"
     exit 1
 fi
 
-print_info "Activating..."
-source "$VENV_DIR/bin/activate"
-print_success "Virtual environment activated"
+NODE_VERSION="$(node -p "process.versions.node")"
+NODE_MAJOR="${NODE_VERSION%%.*}"
+NODE_MINOR="$(echo "$NODE_VERSION" | cut -d. -f2)"
 
-# ─────────────────────────────────────────────────────────────────────────────
-#  Step 3: Pure Python Packages
-# ─────────────────────────────────────────────────────────────────────────────
-print_step 3 4 "Installing Python packages"
-
-print_info "Upgrading pip infrastructure..."
-pip install --upgrade setuptools wheel --quiet
-print_success "setuptools & wheel ready"
-
-print_info "Installing Flask and dependencies..."
-pip install --no-build-isolation \
-    flask==3.1.0 \
-    flask-sqlalchemy==3.1.1 \
-    flask-cors==5.0.0 \
-    flask-limiter==3.8.0 \
-    PyJWT==2.10.1 \
-    python-dotenv==1.0.1 \
-    gunicorn==23.0.0 \
-    requests==2.31.0 \
-    resend==2.10.0 \
-    itsdangerous==2.2.0 \
-    upstash-redis==1.1.0 2>&1 | while read -r line; do
-        # Suppress verbose output, show only important lines
-        if [[ "$line" == *"Successfully"* ]] || [[ "$line" == *"Requirement"* ]]; then
-            print_info "$line"
-        fi
-    done
-print_success "Core packages installed"
-
-# ─────────────────────────────────────────────────────────────────────────────
-#  Step 4: Optional Packages
-# ─────────────────────────────────────────────────────────────────────────────
-print_step 4 4 "Installing optional packages"
-
-print_info "pywebpush (push notifications)..."
-if pip install pywebpush==2.0.0 --no-build-isolation 2>/dev/null; then
-    print_success "pywebpush installed"
-else
-    print_warning "pywebpush skipped — push notifications unavailable"
-    print_info "    App will still work, just no web push"
+if [ "$NODE_MAJOR" -lt 18 ] || { [ "$NODE_MAJOR" -eq 18 ] && [ "$NODE_MINOR" -lt 18 ]; }; then
+    print_error "Node.js $NODE_VERSION is too old. Need 18.18 or newer"
+    exit 1
 fi
 
-print_info "psycopg2-binary (PostgreSQL support)..."
-if pip install psycopg2-binary==2.9.10 --no-build-isolation 2>/dev/null; then
-    print_success "psycopg2 installed — PostgreSQL ready"
-else
-    print_warning "psycopg2 skipped — using SQLite for local dev"
-    print_info "    Set DATABASE_URL=sqlite:///zyro.db in .env"
+if ! command -v npm >/dev/null 2>&1; then
+    print_error "npm not found"
+    exit 1
 fi
 
-# ─────────────────────────────────────────────────────────────────────────────
-#  Done
-# ─────────────────────────────────────────────────────────────────────────────
+print_success "Node.js $NODE_VERSION"
+
+print_step 2 5 "Installing dependencies"
+
+npm install
+print_success "Dependencies installed"
+
+print_step 3 5 "Creating .env.local"
+
+if [ -f ".env.local" ]; then
+    print_info ".env.local already exists, keeping it"
+else
+    cp .env.example .env.local
+    print_success ".env.local created from .env.example"
+fi
+
+print_step 4 5 "Generating SECRET_KEY"
+
+CURRENT_SECRET="$(grep -E '^SECRET_KEY=' .env.local | head -n 1 | cut -d= -f2-)"
+
+if [ -n "$CURRENT_SECRET" ]; then
+    print_info "SECRET_KEY already set, keeping it"
+else
+    NEW_SECRET="$(node -e "console.log(require('crypto').randomBytes(32).toString('hex'))")"
+    if grep -qE '^SECRET_KEY=' .env.local; then
+        sed -i.bak "s|^SECRET_KEY=.*|SECRET_KEY=$NEW_SECRET|" .env.local
+        rm -f .env.local.bak
+    else
+        echo "SECRET_KEY=$NEW_SECRET" >> .env.local
+    fi
+    print_success "SECRET_KEY generated"
+fi
+
+print_step 5 5 "Pushing database schema"
+
+DB_URL="$(grep -E '^DATABASE_URL=' .env.local | head -n 1 | cut -d= -f2-)"
+
+if [ -z "$DB_URL" ] || [[ "$DB_URL" == *"user:password@host"* ]]; then
+    print_warning "DATABASE_URL is not set in .env.local, skipping db:push"
+    print_info "Set it, then run: npm run db:push"
+elif DATABASE_URL="$DB_URL" npm run db:push; then
+    print_success "Database schema pushed"
+else
+    print_warning "db:push failed. Check DATABASE_URL, then run: npm run db:push"
+fi
 
 print_footer
 
 echo -e "${DIM}────────────────────────────────────────────────────────────────────${RESET}"
-echo -e "${DIM}  Zyro AI v1.6.5 • Models: Groq compound + Gemini 3 Flash Preview${RESET}"
+echo -e "${DIM}  Zyro AI v2.0.0 • Models: Groq compound + Gemini 3 Flash Preview${RESET}"
 echo -e "${DIM}────────────────────────────────────────────────────────────────────${RESET}"
