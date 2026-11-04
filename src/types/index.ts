@@ -57,7 +57,7 @@ export interface Toast {
   type: ToastType;
 }
 
-export type SettingsView = 'main' | 'edit-profile' | 'change-password' | 'delete-account' | 'ai-instructions' | 'model-select';
+export type SettingsView = 'main' | 'edit-profile' | 'change-password' | 'delete-account' | 'ai-instructions' | 'model-select' | 'persona-select' | 'theme-select';
 
 export interface AuthForm {
   username: string;
