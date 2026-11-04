@@ -539,7 +539,7 @@ export default function App() {
             <IconTrash /><span className="text-[10px] uppercase tracking-widest">Erase All History</span>
           </button>
         </div>
-        {(canInstall || 'Notification' in window) && (
+        {(canInstall || ('Notification' in window && currentUser)) && (
           <div className="space-y-0">
             <p className="text-[9px] uppercase tracking-[0.1em] text-text-dim mb-3">App</p>
             {canInstall && <button onClick={installPWA} className="w-full flex items-center gap-3 py-3 border-b border-border text-text-mid hover:text-silver"><IconDownload /><span className="text-[10px] uppercase tracking-widest">Install App</span></button>}
