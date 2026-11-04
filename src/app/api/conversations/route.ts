@@ -17,7 +17,7 @@ export const GET = withAuth(async (_req, user) => {
       exists(db.select({ one: sql`1` }).from(messages).where(eq(messages.conversationId, conversations.id))),
     ))
     .orderBy(desc(conversations.pinned), desc(conversations.lastUpdated));
-  return json(rows.map((c) => conversationToDict(c)));
+  return json(rows.map((c) => ({ ...conversationToDict(c), messages: [], hasMessages: true })));
 });
 
 export const POST = withAuth(async (req, user) => {

@@ -113,7 +113,7 @@ export default function App() {
   }, [searchQuery, searchOpen, currentUser]);
 
   const loadConversations = useCallback(async () => {
-    try { const c = await conversationsApi.list(); if (Array.isArray(c)) setConversations(c); } catch {}
+    try { const c = await conversationsApi.list(); if (Array.isArray(c)) setConversations(c.map(x => ({ ...x, messages: x.messages ?? [] }))); } catch {}
   }, []);
 
   useEffect(() => {
