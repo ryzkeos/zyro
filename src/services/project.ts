@@ -1,11 +1,11 @@
 export const PROJECT = {
   name:      "Zyro AI",
-  version:   "1.6.5",
+  version:   "2.0.0",
   author:    "John Ruenz",
   company:   "Arkeos",
-  buildYear: "2026",
+  buildYear: "2027",
   socials: {
-    github:    "https://github.com/arkeos-kzenon",
+    github:    "https://github.com/ryzkeos",
     twitter:   "",
     linkedin:  "",
     website:   "",
