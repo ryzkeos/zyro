@@ -12,7 +12,7 @@ import { useToast, usePWA, useKeyboardShortcuts, useTouchGestures, useAutoScroll
 import {
   IconHamburger, IconSettings, IconStop, IconSend, IconClose, IconPlus, IconTrash, IconChevronDown, IconLogout, IconUser, IconKey, IconBell, IconDownload, IconImage, IconBack, IconPencil, IconGithub, IconFacebook, IconInstagram, IconTikTok,
   MessageBubble, StreamingMessage, ResponseSkeleton, ErrorBoundary,
-  ToastContainer, ZyroLogo, ConvList, SidebarSearch,
+  ToastContainer, ZyroLogo, ConvList, SidebarSearch, PasswordInput,
   AuthModal, ForgotModal, ResetModal, VerifyModal, RenameModal, ConfirmModal, SearchModal, ImageModal
 } from './components';
 
@@ -116,16 +116,28 @@ export default function App() {
     try { const c = await conversationsApi.list(); if (Array.isArray(c)) setConversations(c.map(x => ({ ...x, messages: x.messages ?? [] }))); } catch {}
   }, []);
 
-  useEffect(() => {
-    (async () => {
-      try {
-        const data = await authApi.me();
-        if (data.user) { setCurrentUser(data.user); await loadConversations(); }
-        else { setConversations(loadGuestConvs()); }
-      } catch { setConversations([]); }
-      finally { setAuthLoading(false); }
-    })();
+  const sessionCheckedRef = useRef(false);
+  const restoreSession = useCallback(async () => {
+    let checked = false; let user: User | null = null;
+    for (let i = 0; i < 4 && !checked; i++) {
+      try { const data = await authApi.me(); user = data.user ?? null; checked = true; }
+      catch { if (i < 3) await new Promise(r => setTimeout(r, 700 * (i + 1))); }
+    }
+    sessionCheckedRef.current = checked;
+    if (user) { setCurrentUser(user); await loadConversations(); }
+    else if (checked) setConversations(loadGuestConvs());
+    else setConversations(prev => (prev.length ? prev : loadGuestConvs()));
+    setAuthLoading(false);
   }, [loadConversations]);
+
+  useEffect(() => { restoreSession(); }, [restoreSession]);
+
+  useEffect(() => {
+    const retry = () => { if (!sessionCheckedRef.current && !currentUser) restoreSession(); };
+    window.addEventListener('focus', retry);
+    document.addEventListener('visibilitychange', retry);
+    return () => { window.removeEventListener('focus', retry); document.removeEventListener('visibilitychange', retry); };
+  }, [currentUser, restoreSession]);
 
   const activeConversation = useMemo(() => conversations.find(c => c.id === activeConversationId) ?? null, [conversations, activeConversationId]);
   const sortedConversations = useMemo(() => [...conversations.filter(c => c.pinned), ...conversations.filter(c => !c.pinned)], [conversations]);
@@ -397,7 +409,7 @@ export default function App() {
           {(['username', 'email'] as const).map(k => (
             <div key={k} className="space-y-2">
               <label className="text-[9px] uppercase tracking-[0.1em] text-text-dim">{k}</label>
-              <input value={profileForm[k]} onChange={e => setProfileForm(f => ({ ...f, [k]: e.target.value }))} className="w-full bg-surface2 border border-border p-3 text-[12px] outline-none focus:border-silver font-mono text-text" />
+              <input value={profileForm[k]} onChange={e => setProfileForm(f => ({ ...f, [k]: e.target.value }))} className="w-full bg-surface2 border border-border p-3 pr-10 text-[12px] outline-none focus:border-silver font-mono text-text" />
             </div>
           ))}
           {profileError && <p className="text-[11px] text-red-400 font-mono">{profileError}</p>}
@@ -413,7 +425,7 @@ export default function App() {
           {([['current', 'Current Password'], ['next', 'New Password'], ['confirm', 'Confirm Password']] as const).map(([k, label]) => (
             <div key={k} className="space-y-2">
               <label className="text-[9px] uppercase tracking-[0.1em] text-text-dim">{label}</label>
-              <input type="password" value={pwForm[k]} onChange={e => setPwForm(f => ({ ...f, [k]: e.target.value }))} className="w-full bg-surface2 border border-border p-3 text-[12px] outline-none focus:border-silver font-mono text-text" />
+              <PasswordInput value={pwForm[k]} onChange={e => setPwForm(f => ({ ...f, [k]: e.target.value }))} className="w-full bg-surface2 border border-border p-3 pr-10 text-[12px] outline-none focus:border-silver font-mono text-text" />
             </div>
           ))}
           {pwError && <p className="text-[11px] text-red-400 font-mono">{pwError}</p>}
@@ -429,7 +441,7 @@ export default function App() {
         <div className="space-y-4">
           <div className="space-y-2">
             <label className="text-[9px] uppercase tracking-[0.1em] text-text-dim">Confirm Password</label>
-            <input type="password" value={deleteForm.password} onChange={e => setDeleteForm({ password: e.target.value })} className="w-full bg-surface2 border border-border p-3 text-[12px] outline-none focus:border-silver font-mono text-text" />
+            <PasswordInput value={deleteForm.password} onChange={e => setDeleteForm({ password: e.target.value })} className="w-full bg-surface2 border border-border p-3 pr-10 text-[12px] outline-none focus:border-silver font-mono text-text" />
           </div>
           {deleteError && <p className="text-[11px] text-red-400 font-mono">{deleteError}</p>}
           <button onClick={handleDeleteAccount} disabled={deleteSubmitting || !deleteForm.password} className="w-full py-3 border border-red-900/40 text-red-400 text-[10px] uppercase tracking-[0.1em] hover:bg-red-900/10 disabled:opacity-50">{deleteSubmitting ? 'Deleting...' : 'Delete Account'}</button>

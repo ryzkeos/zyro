@@ -4,7 +4,8 @@ const API = '';
 
 export const authApi = {
   async me(): Promise<{ user: User | null }> {
-    const res = await fetch(`${API}/api/auth/me`, { credentials: 'include' });
+    const res = await fetch(`${API}/api/auth/me`, { credentials: 'include', cache: 'no-store' });
+    if (!res.ok) throw new Error(`me ${res.status}`);
     return res.json();
   },
 

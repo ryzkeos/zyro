@@ -3,3 +3,4 @@ export { ToastContainer } from './ToastContainer';
 export { ZyroLogo } from './ZyroLogo';
 export { ErrorBoundary } from './ErrorBoundary';
 export * from './Icons';
+export { PasswordInput } from './PasswordInput';
