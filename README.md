@@ -8,24 +8,8 @@ Zyro is a full chat app with two models behind one interface. Xenon 1.0 handles 
 
 You can stop, resume, regenerate, copy and branch a reply, upload images on Yuruzu, and find any past chat with full text search. Titles are written automatically, and chats can be pinned or renamed.
 
-It is made to feel personal. Pick from 5 personas and 6 color themes, switch between light and dark mode, and add your own AI instructions. Accounts support email verification and password reset, and guest mode works with no sign up. Push notifications, API key rotation, rate limits and an optional Redis prompt cache keep it fast and safe to run.
+It is made to feel personal. Pick from 5 personas and 6 color themes, switch between light and dark mode, and add your own AI instructions. Accounts support email verification and password reset, and guest mode works with no sign up.
 
-## Installation
-
-```
-bash scripts/install.sh
-```
-
-Copy `.env.example` to `.env.local`, fill in the values, then run `npm run db:push`. `DATABASE_URL` must point to a PostgreSQL database.
-
-## Usage
-
-```
-bash scripts/deploy-frontend.sh --dev
-bash scripts/deploy-frontend.sh --prod
-```
-
-The app and its api run together as one Next.js app on port 7004.
 
 ## Credits
 
@@ -37,7 +21,7 @@ The app and its api run together as one Next.js app on port 7004.
 
 ## Version History
 
-Versions v0.1 to v1.5.0 were built before this repository existed and are not tracked here. Their history is in the web-projects repository.
+Versions v0.1 to v1.5.0 were built before this repository existed and are not tracked here. Their history is in my old repository.
 
 ### v0.1 (2026-10-31) Backend And Frontend Split
 
@@ -73,4 +57,3 @@ Versions v0.1 to v1.5.0 were built before this repository existed and are not tr
 - Rewrote the app as a single Next.js project. The Flask backend and the Vite frontend are gone.
 - Moved every api route into src/app/api with the same paths and the same database tables.
 - Added shared server code in src/server for auth, conversations, ai providers, cache, push and email.
-- Rewrote the install and deploy scripts for Next.js.
