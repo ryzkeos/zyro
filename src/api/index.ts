@@ -4,7 +4,8 @@ const API = '';
 
 export const authApi = {
   async me(): Promise<{ user: User | null }> {
-    const res = await fetch(`${API}/api/auth/me`, { credentials: 'include' });
+    const res = await fetch(`${API}/api/auth/me`, { credentials: 'include', cache: 'no-store' });
+    if (!res.ok) throw new Error(`me ${res.status}`);
     return res.json();
   },
 
@@ -239,23 +240,26 @@ export const aiApi = {
         const reader = res.body.getReader();
         const decoder = new TextDecoder();
 
+        let buf = '';
         while (true) {
           const { done, value } = await reader.read();
           if (done) break;
 
-          const chunk = decoder.decode(value, { stream: true });
-          for (const line of chunk.split('\n')) {
+          buf += decoder.decode(value, { stream: true });
+          const lines = buf.split('\n');
+          buf = lines.pop() ?? '';
+          for (const line of lines) {
             if (!line.startsWith('data: ')) continue;
             const payload = line.slice(6).trim();
             if (payload === '[DONE]') {
               yield { done: true };
               return;
             }
-            try {
-              const parsed = JSON.parse(payload);
-              if (parsed.error) yield { error: parsed.error, done: false };
-              if (parsed.text) yield { text: parsed.text, done: false };
-            } catch {}
+            let parsed: { error?: string; text?: string } | null = null;
+            try { parsed = JSON.parse(payload); } catch {}
+            if (!parsed) continue;
+            if (parsed.error) { yield { error: parsed.error, done: true }; return; }
+            if (parsed.text) yield { text: parsed.text, done: false };
           }
         }
         yield { done: true };

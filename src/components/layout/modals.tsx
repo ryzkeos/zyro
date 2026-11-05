@@ -1,5 +1,6 @@
 import React from 'react';
 import { motion, AnimatePresence } from 'motion/react';
+import { PasswordInput } from '../ui/PasswordInput';
 
 interface AuthModalProps {
   mode: 'login' | 'register';
@@ -67,8 +68,7 @@ export const AuthModal: React.FC<AuthModalProps> = ({
             </div>
             <div className="space-y-2">
               <label className="text-[9px] uppercase tracking-[0.1em] text-text-dim">Password</label>
-              <input
-                type="password"
+              <PasswordInput
                 value={form.password}
                 onChange={e => setForm({ ...form, password: e.target.value })}
                 onKeyDown={e => { if (e.key === 'Enter') onSubmit(mode); }}
@@ -204,8 +204,7 @@ export const ResetModal: React.FC<ResetModalProps> = ({
           <div className="space-y-4">
             <div className="space-y-2">
               <label className="text-[9px] uppercase tracking-[0.1em] text-text-dim">New Password</label>
-              <input
-                type="password"
+              <PasswordInput
                 value={password}
                 onChange={e => setPassword(e.target.value)}
                 autoFocus
@@ -215,8 +214,7 @@ export const ResetModal: React.FC<ResetModalProps> = ({
             </div>
             <div className="space-y-2">
               <label className="text-[9px] uppercase tracking-[0.1em] text-text-dim">Confirm Password</label>
-              <input
-                type="password"
+              <PasswordInput
                 value={confirm}
                 onChange={e => setConfirm(e.target.value)}
                 onKeyDown={e => { if (e.key === 'Enter') onSubmit(); }}

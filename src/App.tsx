@@ -12,7 +12,7 @@ import { useToast, usePWA, useKeyboardShortcuts, useTouchGestures, useAutoScroll
 import {
   IconHamburger, IconSettings, IconStop, IconSend, IconClose, IconPlus, IconTrash, IconChevronDown, IconLogout, IconUser, IconKey, IconBell, IconDownload, IconImage, IconBack, IconPencil, IconGithub, IconFacebook, IconInstagram, IconTikTok,
   MessageBubble, StreamingMessage, ResponseSkeleton, ErrorBoundary,
-  ToastContainer, ZyroLogo, ConvList, SidebarSearch,
+  ToastContainer, ZyroLogo, ConvList, SidebarSearch, PasswordInput,
   AuthModal, ForgotModal, ResetModal, VerifyModal, RenameModal, ConfirmModal, SearchModal, ImageModal
 } from './components';
 
@@ -113,19 +113,31 @@ export default function App() {
   }, [searchQuery, searchOpen, currentUser]);
 
   const loadConversations = useCallback(async () => {
-    try { const c = await conversationsApi.list(); if (Array.isArray(c)) setConversations(c); } catch {}
+    try { const c = await conversationsApi.list(); if (Array.isArray(c)) setConversations(c.map(x => ({ ...x, messages: x.messages ?? [] }))); } catch {}
   }, []);
 
-  useEffect(() => {
-    (async () => {
-      try {
-        const data = await authApi.me();
-        if (data.user) { setCurrentUser(data.user); await loadConversations(); }
-        else { setConversations(loadGuestConvs()); }
-      } catch { setConversations([]); }
-      finally { setAuthLoading(false); }
-    })();
+  const sessionCheckedRef = useRef(false);
+  const restoreSession = useCallback(async () => {
+    let checked = false; let user: User | null = null;
+    for (let i = 0; i < 4 && !checked; i++) {
+      try { const data = await authApi.me(); user = data.user ?? null; checked = true; }
+      catch { if (i < 3) await new Promise(r => setTimeout(r, 700 * (i + 1))); }
+    }
+    sessionCheckedRef.current = checked;
+    if (user) { setCurrentUser(user); await loadConversations(); }
+    else if (checked) setConversations(loadGuestConvs());
+    else setConversations(prev => (prev.length ? prev : loadGuestConvs()));
+    setAuthLoading(false);
   }, [loadConversations]);
+
+  useEffect(() => { restoreSession(); }, [restoreSession]);
+
+  useEffect(() => {
+    const retry = () => { if (!sessionCheckedRef.current && !currentUser) restoreSession(); };
+    window.addEventListener('focus', retry);
+    document.addEventListener('visibilitychange', retry);
+    return () => { window.removeEventListener('focus', retry); document.removeEventListener('visibilitychange', retry); };
+  }, [currentUser, restoreSession]);
 
   const activeConversation = useMemo(() => conversations.find(c => c.id === activeConversationId) ?? null, [conversations, activeConversationId]);
   const sortedConversations = useMemo(() => [...conversations.filter(c => c.pinned), ...conversations.filter(c => !c.pinned)], [conversations]);
@@ -397,7 +409,7 @@ export default function App() {
           {(['username', 'email'] as const).map(k => (
             <div key={k} className="space-y-2">
               <label className="text-[9px] uppercase tracking-[0.1em] text-text-dim">{k}</label>
-              <input value={profileForm[k]} onChange={e => setProfileForm(f => ({ ...f, [k]: e.target.value }))} className="w-full bg-surface2 border border-border p-3 text-[12px] outline-none focus:border-silver font-mono text-text" />
+              <input value={profileForm[k]} onChange={e => setProfileForm(f => ({ ...f, [k]: e.target.value }))} className="w-full bg-surface2 border border-border p-3 pr-10 text-[12px] outline-none focus:border-silver font-mono text-text" />
             </div>
           ))}
           {profileError && <p className="text-[11px] text-red-400 font-mono">{profileError}</p>}
@@ -413,7 +425,7 @@ export default function App() {
           {([['current', 'Current Password'], ['next', 'New Password'], ['confirm', 'Confirm Password']] as const).map(([k, label]) => (
             <div key={k} className="space-y-2">
               <label className="text-[9px] uppercase tracking-[0.1em] text-text-dim">{label}</label>
-              <input type="password" value={pwForm[k]} onChange={e => setPwForm(f => ({ ...f, [k]: e.target.value }))} className="w-full bg-surface2 border border-border p-3 text-[12px] outline-none focus:border-silver font-mono text-text" />
+              <PasswordInput value={pwForm[k]} onChange={e => setPwForm(f => ({ ...f, [k]: e.target.value }))} className="w-full bg-surface2 border border-border p-3 pr-10 text-[12px] outline-none focus:border-silver font-mono text-text" />
             </div>
           ))}
           {pwError && <p className="text-[11px] text-red-400 font-mono">{pwError}</p>}
@@ -429,7 +441,7 @@ export default function App() {
         <div className="space-y-4">
           <div className="space-y-2">
             <label className="text-[9px] uppercase tracking-[0.1em] text-text-dim">Confirm Password</label>
-            <input type="password" value={deleteForm.password} onChange={e => setDeleteForm({ password: e.target.value })} className="w-full bg-surface2 border border-border p-3 text-[12px] outline-none focus:border-silver font-mono text-text" />
+            <PasswordInput value={deleteForm.password} onChange={e => setDeleteForm({ password: e.target.value })} className="w-full bg-surface2 border border-border p-3 pr-10 text-[12px] outline-none focus:border-silver font-mono text-text" />
           </div>
           {deleteError && <p className="text-[11px] text-red-400 font-mono">{deleteError}</p>}
           <button onClick={handleDeleteAccount} disabled={deleteSubmitting || !deleteForm.password} className="w-full py-3 border border-red-900/40 text-red-400 text-[10px] uppercase tracking-[0.1em] hover:bg-red-900/10 disabled:opacity-50">{deleteSubmitting ? 'Deleting...' : 'Delete Account'}</button>
@@ -446,17 +458,32 @@ export default function App() {
       </div>
     );
 
-    if (settingsView === 'model-select') return (
-      <div className="p-6 space-y-4">
-        <button onClick={() => setSettingsView('main')} className="flex items-center gap-2 text-text-dim hover:text-silver text-[10px] uppercase tracking-widest"><IconBack /><span>Back</span></button>
-        {Object.entries(MODEL_NAMES).map(([key, name]) => (
-          <button key={key} onClick={() => { setSettings(s => ({ ...s, model: key })); setSettingsView('main'); }} className={`w-full text-left p-4 border transition-all ${settings.model === key ? 'border-silver text-silver' : 'border-border text-text-mid hover:border-border-light'}`}>
-            <div className="text-[11px] font-bold uppercase tracking-widest">{name}</div>
-            <div className="text-[10px] text-text-dim mt-1">{key === 'xenon-1.0' ? 'Fast & efficient' : 'Advanced reasoning & vision'}</div>
-          </button>
-        ))}
-      </div>
-    );
+    if (settingsView === 'model-select' || settingsView === 'persona-select' || settingsView === 'theme-select') {
+      const options: [string, string, string][] =
+        settingsView === 'model-select'
+          ? Object.entries(MODEL_NAMES).map(([k, n]) => [k, n, k === 'xenon-1.0' ? 'Fast & efficient' : 'Advanced reasoning & vision'])
+          : settingsView === 'persona-select'
+            ? Object.entries(PERSONA_NAMES).map(([k, n]) => [k, n, ''])
+            : (['dark', 'dim', 'light'] as InterfaceTheme[]).map(t => [t, t, '']);
+      const current = settingsView === 'model-select' ? settings.model : settingsView === 'persona-select' ? settings.persona : settings.interfaceTheme;
+      const pick = (key: string) => {
+        if (settingsView === 'model-select') setSettings(s => ({ ...s, model: key }));
+        else if (settingsView === 'persona-select') setSettings(s => ({ ...s, persona: key as Persona, personaName: PERSONA_NAMES[key] || key }));
+        else setSettings(s => ({ ...s, interfaceTheme: key as InterfaceTheme }));
+        setSettingsView('main');
+      };
+      return (
+        <div className="p-6 space-y-4">
+          <button onClick={() => setSettingsView('main')} className="flex items-center gap-2 text-text-dim hover:text-silver text-[10px] uppercase tracking-widest"><IconBack /><span>Back</span></button>
+          {options.map(([key, name, desc]) => (
+            <button key={key} onClick={() => pick(key)} className={`w-full text-left p-4 border transition-all ${current === key ? 'border-silver text-silver' : 'border-border text-text-mid hover:border-border-light'}`}>
+              <div className="text-[11px] font-bold uppercase tracking-widest">{name}</div>
+              {desc && <div className="text-[10px] text-text-dim mt-1">{desc}</div>}
+            </button>
+          ))}
+        </div>
+      );
+    }
 
     return (
       <div className="p-6 space-y-8">
@@ -483,21 +510,17 @@ export default function App() {
             <span className="text-[10px] uppercase tracking-widest text-text-mid">Model</span>
             <span className="text-[11px] text-silver flex items-center gap-1">{MODEL_NAMES[settings.model] || settings.model}<IconChevronDown /></span>
           </button>
-          <div className="flex justify-between items-center py-3 border-b border-border">
+          <button onClick={() => setSettingsView('persona-select')} className="w-full flex justify-between items-center py-3 border-b border-border hover:text-silver">
             <span className="text-[10px] uppercase tracking-widest text-text-mid">Persona</span>
-            <select value={settings.persona} onChange={e => setSettings(s => ({ ...s, persona: e.target.value as Persona, personaName: PERSONA_NAMES[e.target.value] || e.target.value }))} className="bg-transparent text-[11px] text-silver outline-none cursor-pointer">
-              {Object.entries(PERSONA_NAMES).map(([k, v]) => <option key={k} value={k}>{v}</option>)}
-            </select>
-          </div>
+            <span className="text-[11px] text-silver flex items-center gap-1">{PERSONA_NAMES[settings.persona] || settings.persona}<IconChevronDown /></span>
+          </button>
         </div>
         <div className="space-y-0">
           <p className="text-[9px] uppercase tracking-[0.1em] text-text-dim mb-3">Appearance</p>
-          <div className="flex justify-between items-center py-3 border-b border-border">
+          <button onClick={() => setSettingsView('theme-select')} className="w-full flex justify-between items-center py-3 border-b border-border hover:text-silver">
             <span className="text-[10px] uppercase tracking-widest text-text-mid">Theme</span>
-            <select value={settings.interfaceTheme} onChange={e => setSettings(s => ({ ...s, interfaceTheme: e.target.value as InterfaceTheme }))} className="bg-transparent text-[11px] text-silver outline-none cursor-pointer capitalize">
-              {(['dark', 'dim', 'light'] as InterfaceTheme[]).map(t => <option key={t} value={t}>{t}</option>)}
-            </select>
-          </div>
+            <span className="text-[11px] text-silver flex items-center gap-1 capitalize">{settings.interfaceTheme}<IconChevronDown /></span>
+          </button>
           <div className="flex justify-between items-center py-3 border-b border-border">
             <span className="text-[10px] uppercase tracking-widest text-text-mid">Color</span>
             <div className="flex gap-2">
@@ -528,7 +551,7 @@ export default function App() {
             <IconTrash /><span className="text-[10px] uppercase tracking-widest">Erase All History</span>
           </button>
         </div>
-        {(canInstall || 'Notification' in window) && (
+        {(canInstall || ('Notification' in window && currentUser)) && (
           <div className="space-y-0">
             <p className="text-[9px] uppercase tracking-[0.1em] text-text-dim mb-3">App</p>
             {canInstall && <button onClick={installPWA} className="w-full flex items-center gap-3 py-3 border-b border-border text-text-mid hover:text-silver"><IconDownload /><span className="text-[10px] uppercase tracking-widest">Install App</span></button>}
@@ -575,7 +598,6 @@ export default function App() {
           <button onClick={handleNewChat} className="text-text-dim hover:text-silver transition-colors"><IconPlus /></button>
         </div>
         <SidebarSearch convFilter={convFilter} setConvFilter={setConvFilter} currentUser={currentUser} onOpenSearch={() => { setSearchOpen(true); setSearchQuery(''); setSearchResults([]); }} />
-        {visibleConvs.length > 0 && <div className="px-6 pb-2 shrink-0"><span className="text-[10px] uppercase tracking-[0.1em] text-text-dim">History</span></div>}
         <ConvList visibleConvs={visibleConvs} activeConversationId={activeConversationId} mobileOptionsId={mobileOptionsId} selectConversation={selectConversation} deleteConversation={deleteConversation} togglePin={togglePin} setRenameId={setRenameId} setRenameValue={setRenameValue} setIsRenameModalOpen={setIsRenameModalOpen} setMobileOptionsId={setMobileOptionsId} />
       </aside>
 
@@ -607,7 +629,6 @@ export default function App() {
             <span className="hidden md:inline font-mono text-[15px] font-normal tracking-[0.05em] text-text-dim leading-none">— {(MODEL_NAMES[settings.model] || settings.model).toUpperCase()}</span>
           </div>
           <div className="ml-auto flex items-center gap-3">
-            <button onClick={handleNewChat} className="hidden md:flex text-text-mid hover:text-silver transition-colors"><IconPlus /></button>
             <button onClick={() => setIsSettingsOpen(true)} className="text-text-mid hover:text-silver transition-colors shrink-0"><IconSettings /></button>
           </div>
         </header>
@@ -676,7 +697,7 @@ export default function App() {
             <motion.div initial={{ x: '100%' }} animate={{ x: 0 }} exit={{ x: '100%' }} transition={{ duration: 0.38, ease: [0.4, 0, 0.2, 1] }} className="fixed inset-y-0 right-0 w-full sm:w-[380px] xl:w-[440px] bg-surface border-l border-border z-50 overflow-y-auto">
               <div className="p-6 border-b border-border flex justify-between items-center sticky top-0 bg-surface z-10">
                 <span className="text-[14px] uppercase tracking-[0.15em] text-silver font-bold font-display">
-                  {settingsView === 'main' ? 'Settings' : settingsView === 'edit-profile' ? 'Edit Profile' : settingsView === 'change-password' ? 'Change Password' : settingsView === 'delete-account' ? 'Delete Account' : settingsView === 'model-select' ? 'Select Model' : 'AI Instructions'}
+                  {settingsView === 'main' ? 'Settings' : settingsView === 'edit-profile' ? 'Edit Profile' : settingsView === 'change-password' ? 'Change Password' : settingsView === 'delete-account' ? 'Delete Account' : settingsView === 'model-select' ? 'Select Model' : settingsView === 'persona-select' ? 'Select Persona' : settingsView === 'theme-select' ? 'Select Theme' : 'AI Instructions'}
                 </span>
                 <button onClick={() => setIsSettingsOpen(false)} className="text-text-mid hover:text-silver"><IconClose /></button>
               </div>
